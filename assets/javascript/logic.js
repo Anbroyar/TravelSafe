@@ -49,7 +49,10 @@ $(document).ready(function() {
     var allalertsURL="https://travel.state.gov/_res/rss/TWs.xml";*/
 
 
-    var country = inputCountry; // from input form
+$('#country-submit').on('click', function () {
+    var countryName = ('#country-input').val();
+
+    var country = country_lookup(countryName);
 
 
      // get air pollution data 
@@ -59,7 +62,7 @@ $(document).ready(function() {
 
     var malariaDat = data;
     var hivDat = data;
-    var ntdDat = data
+    var ntdDat = data;
 
 
      // get air pollution data 
@@ -78,13 +81,13 @@ $(document).ready(function() {
     var natdisDat = data;
 
 
-
     // get water hygeine data 
     var waterURL = "http://apps.who.int/gho/athena/data/GHO/SDGWSHBOD.json?profile=simple&filter=COUNTRY:*";
     var queryURL = waterURL + country;  // may need furtehr processing
     var data = ajax_call (queryURL);
 
     var waterDat = data;
+
 
     // get road traffic deaths rates
     var rtaURL = "http://apps.who.int/gho/athena/data/GHO/RS_196,RS_198.json?profile=simple&filter=COUNTRY:*";
@@ -108,10 +111,10 @@ $(document).ready(function() {
     var data = ajax_call (queryURL);
 
     var physiciansDat = data;
-    var dentistsDat = data
+    var dentistsDat = data;
     var nursesDat = data;
 
-
+});
 
 
 function ajax_call (msg) {
@@ -122,9 +125,20 @@ function ajax_call (msg) {
       crossDomain: true,
       dataType: 'jsonp',
 
-    }).done(function(response) {
+    })
+
+    .done(function(response) {
       console.log(response);
       return response;
     });
 
 }
+
+function country_lookup (name) {
+
+    // function to retrun country cose from name
+    // if no country code found - return invalid country
+
+}
+
+});
