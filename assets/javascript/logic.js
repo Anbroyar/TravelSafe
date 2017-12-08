@@ -1,5 +1,21 @@
 /*Javascript for Ajax Giphy Homework game (Week 6 Homework )*/
 
+// Autocomplete Country input AND code generation based on input
+$(function() {
+    $('#country').typeahead({
+        source: countries
+    })
+    .change(function() {
+        var country = $(this).typeahead("getActive");
+        console.log(country);
+        $('#result').show();
+        $('#country-name').text(country.name);
+        $('#country-code').text(country.alpha3Code)
+    });
+});
+
+
+
 
 $(document).ready(function() {
 

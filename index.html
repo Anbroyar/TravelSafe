@@ -9,16 +9,17 @@
 
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-<style type="text/css">
-	body {
-		margin-top: 50px;
-	}
-	nav {
-		height: 20px;
-	}
-</style>         
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!-- Typeahead Bootstrap Reference -->
+<script src="assets/javascript/bootstrap-3-typeahead.js"></script>
 
 </head>
+
 <body>
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-fixed-top">
@@ -31,28 +32,77 @@
             	</form>
              </div>
         </nav>
-		
-        <header>
-        	<h1>Travel Safe</h1>
-        </header>
+		<div class="container">
+			<div class="row">
+                <div class="col-md-12">
+                    <header>
+        	            <h1>Travel Safe</h1>
+                    </header>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Country Search</h3>
+                        </div>
+                    <div class="panel-body">
+            	        <div class="form-group">
+            	        	<input id="country" type="text" class="typeahead form-control" name="country" data-provide="typeahead" placeholder="Type in a country name here..."/>
+            	        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                	<div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">TOP5 The Safest Countries</h3>
+                        </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Country Search</h3>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Search Results</h3>
+                        </div>
+                        <div id="result" style="display:none" class="panel-body">
+                            Country: <strong id="country-name"></strong>
+                            ISO Code: <strong id="country-code"></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                	<div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">TOP5 The Most Dangerous Counties</h3>
+                        </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
             </div>
-            <div class="panel-body">
-            	<div class="form-group">
-            		<input id="country-input" type="text" class="form-control" placeholder="Search">
-            	</div>
-            	<button id="county-submit" type="submit" class="btn btn-default">Submit</button>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Maps</h3>
+                        </div>
+                        <div id="map-result" class="panel-body"></div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Search Results</h3>
-            </div>
-            <div id="country-result" class="panel-body">
-            	
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="">
+                </div>
+                <div class="col-md-4">
+                    
+                </div>
+                <div class="col-md-4">
+                    
+                </div>
             </div>
         </div>
     </div>
@@ -60,8 +110,12 @@
 
 
 
-
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPRtdp3P0ME6cDwBU43mWAIrt-Dxcj0mM&callback=initMap">
+</script>
 
 <script type="text/javascript" src="assets/javascript/logic.js"></script>
+<!-- Request Data from Countries Folder (pulled for country codes) -->
+<script type="text/javascript" src="assets/javascript/countries.js"></script>
 </body>
 </html>
