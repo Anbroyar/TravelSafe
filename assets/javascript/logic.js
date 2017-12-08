@@ -8,7 +8,7 @@ $(document).ready(function() {
 /*  --------------------------- Global variables ---------------------------------------------*/
 /*  --------------------------- Global variables ---------------------------------------------*/
 
-
+var countryCodes = {afghanistan:"AFG", america:"USA", usa:"USA"}
 
 
     //cummicable diseases (hepB, TB, malaria, NTDs, HIV)
@@ -47,6 +47,9 @@ $(document).ready(function() {
 
     //US gov chronic travel alerts (xml)
     var allalertsURL="https://travel.state.gov/_res/rss/TWs.xml";*/
+
+
+// Event listeners
 
 
 $('#country-submit').on('click', function () {
@@ -114,8 +117,17 @@ $('#country-submit').on('click', function () {
     var dentistsDat = data;
     var nursesDat = data;
 
+
+    calculateRank (); // use the data to calculate the ranking
+
+    displayData (); // call function to dispaly data
+
+
+
 });
 
+
+// functions
 
 function ajax_call (msg) {
 
@@ -140,5 +152,43 @@ function country_lookup (name) {
     // if no country code found - return invalid country
 
 }
+
+function top_ranks () {
+
+    // function to calculate the top 5 ranked country rankings
+    // and the bottom 5 ranked countries
+    // and display on page
+    // set global variable top and bottom rankings for reference
+}
+
+function load_searches () {
+
+    // load past searchges from firebase
+}
+
+function save_searches () {
+
+    // save searches to firebase
+}
+
+function display_searches () {
+
+    // display results of previous searches on page
+}
+
+
+// calls
+
+
+
+top_ranks ();
+
+load_searches ();
+
+display_searches ();
+
+
+
+
 
 });
