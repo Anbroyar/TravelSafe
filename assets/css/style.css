@@ -1,0 +1,11 @@
+body {
+	margin-top: 50px;
+}
+nav {
+    height: 20px;
+}
+header {
+	margin-top: 100px;
+	background-image: url(../images/travel.jpg);
+	height: 200px;
+}
