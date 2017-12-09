@@ -337,20 +337,22 @@ display_searches ();  // if user logged in load and dispaly users previous searc
 
 // Autocomplete Country input AND code generation based on input
 
+var country = "";
+
 $(function() {
     $('#country').typeahead({
         source: countries
     })
     .change(function() {
-        var country = $(this).typeahead("getActive");
-        //console.log(country);
-        $('#result').show();
-        $('#country-name').text(country.name);
-        $('#country-code').text(country.alpha3Code);
+        country = $(this).typeahead("getActive");
+        console.log(country);
+    })
+});
 
-        countryInput = country.alpha3Code;
+$("#submit-button").on("click", function() {
 
-       // call all the ajax requests
+    $('#country-name').text(country.name);
+    $('#country-code').text(country.alpha3Code);
 
         $('#results').empty();
 
@@ -363,30 +365,38 @@ $(function() {
         var healthworkersData = get_healthworkers_data(countryInput);
         
 
+    countryInput = country.alpha3Code;
 
-        //set interval timer to wait for countryResults[] arraty to be full then move on to rankig calculations using data in countryResults[] 
+    // call all the ajax requests
 
-        // var intervalId = setInterval( function() { 
+    var countryRTAData = get_rta_data (countryInput);
+    var countryAirpollData = get_airpoll_data(countryInput);
+    var counryNatdisData = get_natdis_data(countryInput);
+    var hygeineData = get_hygeine_data(countryInput);
+    var homocideData = get_homocide_data(countryInput);
+    var commdisData = get_commdis_data(countryInput);
+    var healthworkersData = get_healthworkers_data(countryInput);
 
-        //         while (countryResults.length < x /*total size data set*/ ) { /* dispaly "waiting .... " message in UX */ 
-        //                                                                      continue checking every 100ms
-        //                                                                      /*check to make sure a max time not exceeded as well*/                          
-        //         }
 
-        //   }, 100);
 
-        // intervalId.clear();
+    //set interval timer to wait for countryResults[] arraty to be full then move on to rankig calculations using data in countryResults[] 
 
-        /* call calculate-rank() */
-        /* call display-rank() */
-        /* call interpret-rank() */
-        /* if user logged in call save-search() */
+    // var intervalId = setInterval( function() { 
 
-    });
+    //         while (countryResults.length < x /*total size data set*/ ) { /* dispaly "waiting .... " message in UX */ 
+    //                                                                      continue checking every 100ms
+    //                                                                      /*check to make sure a max time not exceeded as well*/                          
+    //         }
 
+    //   }, 100);
+
+    // intervalId.clear();
+
+    /* call calculate-rank() */
+    /* call display-rank() */
+    /* call interpret-rank() */
+    /* if user logged in call save-search() */
 });
-
-
 
 
 
