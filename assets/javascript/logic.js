@@ -43,6 +43,9 @@ function get_rta_data (code) {
 
         console.log(code + ": Annual road traffic deaths (/100,000 population 2016) = " + rtaData);
 
+        var elem = $('<div>').attr('id', 'results-div').text("Annual road traffic deaths (/100,000 population 2016) = " + rtaData);
+        $('#result').append(elem);
+
         // check to see if result returned
         // display raw result with explanation to div in UX
         // calculate ranking 1-10 
@@ -72,10 +75,10 @@ function get_airpoll_data (code) {
 
         var airpollData = response.fact[0].Value; 
 
-        console.log(code + ": Air pollution annual deaths (number)= " + airpollData);
+        console.log(code + "Air pollution annual deaths (number)= " + airpollData);
 
-        // check to see if result returned
-        // display raw result with explanation to div in UX
+        var elem = $('<div>').attr('id', 'results-div').text("Air pollution annual deaths (number)= " + airpollData);
+        $('#result').append(elem);
         // calculate ranking 1-10 
         // place ranking result to countryResults[] array
 
@@ -104,6 +107,9 @@ function get_natdis_data (code) {
         var natdisData = response.fact[0].Value; 
 
         console.log(code + ": Average deaths from natural disasters (/100,000 population (2011-2015) = " + natdisData);
+
+        var elem = $('<div>').attr('id', 'results-div').text("Average deaths from natural disasters (/100,000 population (2011-2015) = " + natdisData);
+        $('#result').append(elem);
 
         // check to see if result returned
         // display raw result with explanation to div in UX
@@ -136,6 +142,9 @@ function get_hygeine_data (code) {
 
         console.log(code + ": Deaths attributed to unsafe water hygeine (/100,000 population (year) = " + hygeineData);
 
+        var elem = $('<div>').attr('id', 'results-div').text("Deaths attributed to unsafe water hygeine (/100,000 population (year) = " + hygeineData);
+        $('#result').append(elem);
+
         // check to see if result returned
         // display raw result with explanation to div in UX
         // calculate ranking 1-10 
@@ -167,6 +176,9 @@ function get_homocide_data (code) {
 
         console.log(code + ": Homocides (/100,000 population (year) = " + homocideData);
 
+         var elem = $('<div>').attr('id', 'results-div').text("Homocides (/100,000 population (year) = " + homocideData);
+        $('#result').append(elem);
+
         // check to see if result returned
         // display raw result with explanation to div in UX
         // calculate ranking 1-10 
@@ -176,12 +188,10 @@ function get_homocide_data (code) {
 
 }
 
-// get comm disesases data 
+function get_commdis_data (code) {
 
-function get_commdiseases_data (code) {
-
-    var commdiseasesURL = "http://apps.who.int/gho/athena/data/GHO/SDGHIV,SDGMALARIA,SDGNTDTREATMENT,MDG_0000000020,WHS4_117.json?profile=simple&filter=COUNTRY:*;YEAR:2016;YEAR:2015;YEAR:2014;YEAR:2013;YEAR:2012;YEAR:2011;YEAR:2010;YEAR:2005;YEAR:2000";
-    var queryURL = commdiseasesURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code'
+    var commdisURL = "http://apps.who.int/gho/athena/data/GHO/SDGHIV,SDGMALARIA,SDGNTDTREATMENT,MDG_0000000020,WHS4_117.json?profile=simple&filter=COUNTRY:*;YEAR:2016;YEAR:2015;YEAR:2014;YEAR:2013;YEAR:2012;YEAR:2011;YEAR:2010;YEAR:2005;YEAR:2000";
+    var queryURL = commdisURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code'
 
     $.ajax({
     url: queryURL,
@@ -193,15 +203,20 @@ function get_commdiseases_data (code) {
 
     .done(function(response) {
 
-        console.log(response);
+        //console.log(response);
 
-        //var malariaData = response.fact[0].Value;
-        //var hivData = response.fact[0].Value;
-        //var ntdData = response.fact[0].Value;
+        var malariaData = response.fact[1].Value;
+        var hivData = response.fact[2].value;
+        var ntdData = response.fact[3].value;
 
-        //console.log(code + ": Malaria (/100,000 population (year) = " + hygeineData);
-        //console.log(code + ": Malaria (/100,000 population (year) = " + hygeineData);
-        //console.log(code + ": Malaria (/100,000 population (year) = " + hygeineData);
+        console.log(code + ": Malaria (cases/100/0000) (year) = " + malariaData);
+        console.log(code + ": hiv (cases/100,000) (year) = " + hivData);
+        console.log(code + ": Tropical disease cases (year) = " + ntdData);
+
+        var elem1 = $('<div>').attr('id', 'results-div').text("Malaria (cases/100/0000) (year) = " + malariaData);
+        var elem2 = $('<div>').attr('id', 'results-div').text("hiv (cases/100,000) (year) = " + hivData);
+        var elem3 = $('<div>').attr('id', 'results-div').text("Tropical disease cases (year) = " + ntdData);
+        $('#result').append(elem1).append(elem2).append(elem3);
   
         // check to see if result returned
         // display raw result with explanation to div in UX
@@ -214,7 +229,7 @@ function get_commdiseases_data (code) {
 
     // get health personnel data
 
-    function get_commdiseases_data (code) {
+    function get_healthworkers_data (code) {
 
     var healthworkersURL = "http://apps.who.int/gho/athena/data/GHO/HRH_26,HRH_33,HRH_28,HRH_25,HRH_27,HRH_31,HRH_29,HRH_30,HRH_32.json?profile=simple&filter=COUNTRY:*";
     var queryURL = healthworkersURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code'
@@ -229,25 +244,26 @@ function get_commdiseases_data (code) {
 
     .done(function(response) {
 
-        console.log(response);
+        //console.log(response);
 
-        // var physiciansData = response.fact[0].Value;
-        // var nursesData = response.fact[0].Value;
-        // var dentistsData = response.fact[0].Value;
+        var physiciansData = response.fact[1].Value;
+        var nursesData = response.fact[17].Value;
+        var dentistsData = response.fact[2].Value;
 
-        //console.log(code + ": Physicians  (/100,000 population (year) = " + physiciansData);
-        //console.log(code + ": Nurses (/100,000 population (year) = " + nursesData);
-        //console.log(code + ": Dentists (/100,000 population (year) = " + dentistsData);
+        console.log(code + ": Physicians  (/100,000 population (year) = " + physiciansData);
+        console.log(code + ": Nurses (/100,000 population (year) = " + nursesData);
+        console.log(code + ": Dentists (/100,000 population (year) = " + dentistsData);
 
+        var elem1 = $('<div>').attr('id', 'results-div').text("Physicians  (/100,000 population (year) = " + physiciansData);
+        var elem2 = $('<div>').attr('id', 'results-div').text("Nurses (/100,000 population (year) = " + nursesData);
+        var elem3 = $('<div>').attr('id', 'results-div').text("Dentists (/100,000 population (year) = " + dentistsData);
+        $('#result').append(elem1).append(elem2).append(elem3);
         // check to see if result returned
         // display raw result with explanation to div in UX
         // calculate ranking 1-10 
         // place ranking result to countryResults[] array
 
-    });
-
-
-    // Ajax request error handling here
+   });
 
 }
 
@@ -327,7 +343,7 @@ $(function() {
     })
     .change(function() {
         var country = $(this).typeahead("getActive");
-        console.log(country);
+        //console.log(country);
         $('#result').show();
         $('#country-name').text(country.name);
         $('#country-code').text(country.alpha3Code);
@@ -341,21 +357,23 @@ $(function() {
         var counryNatdisData = get_natdis_data(countryInput);
         var hygeineData = get_hygeine_data(countryInput);
         var homocideData = get_homocide_data(countryInput);
-        var commdiseasesdata = get_commdiseases_data(countryInput);
+        var commdisData = get_commdis_data(countryInput);
         var healthworkersData = get_healthworkers_data(countryInput);
+        
+
 
         //set interval timer to wait for countryResults[] arraty to be full then move on to rankig calculations using data in countryResults[] 
 
-        var intervalId = setInterval( function() { 
+        // var intervalId = setInterval( function() { 
 
-                while (countryResults.length < x /*total size data set*/ ) { /* dispaly "waiting .... " message in UX */ 
-                                                                             /*continue checking every 100ms*/
-                                                                             /*check to make sure a max time not exceeded as well*/                          
-                }
+        //         while (countryResults.length < x /*total size data set*/ ) { /* dispaly "waiting .... " message in UX */ 
+        //                                                                      continue checking every 100ms
+        //                                                                      /*check to make sure a max time not exceeded as well*/                          
+        //         }
 
-          }, 100);
+        //   }, 100);
 
-        intervalId.clear();
+        // intervalId.clear();
 
         /* call calculate-rank() */
         /* call display-rank() */
