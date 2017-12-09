@@ -12,6 +12,7 @@ var countryInput = "";
 var countryResults = [];
 var country = "";
 var coDate = "";
+var coRanking = 0;
 
 
 /*  --------------------------- Objects ----------------------------------------------*/
@@ -368,8 +369,18 @@ $("#submit-button").on("click", function() {
     $('#country-name').text(country.name);
     $('#country-code').text(country.alpha3Code);
 
+    // Grab date/time using moment.js
+    var coDate = moment().format('MMM Do YY, h:mm a');
+
+    var prevCountrySearch = {
+        country: country,
+        time: coDate,
+        ranking: coRanking,
+        userWhoSearched: ""
+    }
+
     // Firebase Inputs (push country selected to Firebase)
-    database.ref().push(country); 
+    database.ref().push(prevCountrySearch); 
 
     countryInput = country.alpha3Code;
 
@@ -409,20 +420,24 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
     console.log(childSnapshot.val());
 
     // Save all firebase data as a variable
-    var coName = childSnapshot.val().name;
-    var coCode = childSnapshot.val().alpha3Code;
-
-    // Grab date/time using moment.js
-    var coDate = moment().format('MMM Do YY');
+    var Name = childSnapshot.val().country.name;
+    var Time = childSnapshot.val().time;
+    var Ranking = childSnapshot.val().ranking;
+    var User = childSnapshot.val().userWhoSearched;
 
     // Console log all data
-    console.log(coName);
-    console.log(coCode);
-    console.log(coDate);
+    console.log(Name);
+    console.log(Ranking);
+    console.log(Time);
+    console.log(User);
 
     // Add the Previous search results
-    $("#most-recent-search").html("Country: " + coName + "<br>" + "Code: " + coCode + "<br>" + "Date: " + coDate);
-})
+    $("#recent-search-table > tbody").prepend("<tr><td>" + Name + "</td><td>" + Ranking + "</td><td>" + Time + "</td></tr>");
+  
+    // Handle the errors
+    }, function(errorObject) {
+      console.log("Errors handled: " + errorObject.code);
+});
 
 
 });  // close of document ready function.
