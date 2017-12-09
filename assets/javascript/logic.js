@@ -352,6 +352,8 @@ $(function() {
 
        // call all the ajax requests
 
+        $('#results').empty();
+
         var countryRTAData = get_rta_data (countryInput);
         var countryAirpollData = get_airpoll_data(countryInput);
         var counryNatdisData = get_natdis_data(countryInput);
