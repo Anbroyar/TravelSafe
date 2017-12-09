@@ -1,10 +1,9 @@
 var map, infoWindow;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map-result'), {
-          //center: {france},
+          center: {lat: -34.397, lng: 150.644},
           zoom: 8,
-          mapTypeId: 'terrain',
-          region: 'france',
+          mapTypeId: 'terrain'
         });
         infoWindow = new google.maps.InfoWindow;
 

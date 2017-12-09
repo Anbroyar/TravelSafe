@@ -10,6 +10,8 @@ $(document).ready(function() {
 
 var countryInput = "";
 var countryResults = [];
+var country = "";
+var coDate = "";
 
 
 /*  --------------------------- Objects ----------------------------------------------*/
@@ -331,13 +333,25 @@ display_searches ();  // if user logged in load and dispaly users previous searc
 // then listen for user to input a country to search
 
 
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyB1zD5vvuhDY0N2PLKgMkIqLCLcz8fqeIk",
+    authDomain: "travelsafe-4a936.firebaseapp.com",
+    databaseURL: "https://travelsafe-4a936.firebaseio.com",
+    projectId: "travelsafe-4a936",
+    storageBucket: "travelsafe-4a936.appspot.com",
+    messagingSenderId: "1075160018454"
+};
+
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
 
 /*  --------------------------- Event listeners ---------------------------------------------*/
 
 
 // Autocomplete Country input AND code generation based on input
-
-var country = "";
 
 $(function() {
     $('#country').typeahead({
@@ -364,6 +378,10 @@ $("#submit-button").on("click", function() {
         var commdisData = get_commdis_data(countryInput);
         var healthworkersData = get_healthworkers_data(countryInput);
         
+
+
+    // Firebase Inputs (push country selected to Firebase)
+    database.ref().push(country); 
 
     countryInput = country.alpha3Code;
 
@@ -398,7 +416,25 @@ $("#submit-button").on("click", function() {
     /* if user logged in call save-search() */
 });
 
+// Output Firebase Data to Previous Search section
+database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+    console.log(childSnapshot.val());
 
+    // Save all firebase data as a variable
+    var coName = childSnapshot.val().name;
+    var coCode = childSnapshot.val().alpha3Code;
+
+    // Grab date/time using moment.js
+    var coDate = moment().format('MMM Do YY');
+
+    // Console log all data
+    console.log(coName);
+    console.log(coCode);
+    console.log(coDate);
+
+    // Add the Previous search results
+    $("#most-recent-search").html("Country: " + coName + "<br>" + "Code: " + coCode + "<br>" + "Date: " + coDate);
+})
 
 
 });  // close of document ready function.
