@@ -50,6 +50,7 @@
             	        <div class="form-group">
             	        	<input id="country" type="text" class="typeahead form-control" name="country" data-provide="typeahead" placeholder="Type in a country name here..."/>
             	        </div>
+                        <button type="button" class="btn btn-default">Search</button>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -89,7 +90,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Maps</h3>
                         </div>
-                        <div id="map-result" class="panel-body"></div>
+                        <div id="map-result" class="panel-body" style="height: 400px; width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -113,6 +114,8 @@
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPRtdp3P0ME6cDwBU43mWAIrt-Dxcj0mM&callback=initMap">
 </script>
+<script type="text/javascript" src="assets/javascript/googlemaps.js"></script>
+
 
 <script type="text/javascript" src="assets/javascript/logic.js"></script>
 <!-- Request Data from Countries Folder (pulled for country codes) -->
