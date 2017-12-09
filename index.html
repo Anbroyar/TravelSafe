@@ -46,7 +46,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Country Search</h3>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body search">
             	            <div class="form-group">
             	        	    <input id="country" type="text" class="typeahead form-control" name="country" data-provide="typeahead" placeholder="Type in a country name here..."/>
             	            </div>
@@ -57,15 +57,15 @@
                 <div class="col-md-4">
                 	<div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">TOP5 The Safest Countries</h3>
+                            <h3 class="panel-title">Previous Search</h3>
                         </div>
-                        <div class="panel-body"></div>
+                        <div id="previous-search" class="panel-body search"></div>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">Search Results</h3>
@@ -77,12 +77,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                	<div class="panel panel-default">
+                
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default panel-right">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">TOP5 The Safest Counties</h3>
+                        </div>
+                        <div id="safe-countries" class="panel-body search"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">TOP5 The Most Dangerous Counties</h3>
                         </div>
-                        <div class="panel-body"></div>
+                        <div id="dangerous-countries" class="panel-body search"></div>
                     </div>
                 </div>
             </div>
@@ -96,6 +107,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="row">
                 <div class="col-md-4">
                     <img src="">
