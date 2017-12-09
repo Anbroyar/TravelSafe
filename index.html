@@ -28,7 +28,7 @@
             	    <div class="form-group">
             		    <input type="text" class="form-control" placeholder="Login">
             	    </div>
-            	    <button type="submit" class="btn btn-default">Login</button>
+            	    <button type="submit" class="btn btn-primary">Login</button>
             	</form>
              </div>
         </nav>
@@ -50,7 +50,7 @@
             	            <div class="form-group">
             	        	    <input id="country" type="text" class="typeahead form-control" name="country" data-provide="typeahead" placeholder="Type in a country name here..."/>
             	            </div>
-                            <button type="button" class="btn btn-default">Search</button>
+                            <button type="button" id="submit-button" class="btn btn-default moving">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -72,6 +72,7 @@
                         </div>
                         <div id="result" class="panel-body">
                             Country: <strong id="country-name"></strong>
+                            <br>
                             ISO Code: <strong id="country-code"></strong>
                         </div>
                     </div>

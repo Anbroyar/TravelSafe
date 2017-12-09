@@ -1,6 +1,5 @@
 body {
 	margin-top: 50px;
-	background-image: url();
 }
 nav {
     height: 20px;
@@ -20,6 +19,7 @@ color: #fff;
 	height: 400px; 
 	width: 100%;"
 }
-#result {
-	display:none;
+
+.moving {
+	float: right;
 }
