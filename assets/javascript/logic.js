@@ -13,6 +13,7 @@ var countryResults = [];
 var country = "";
 var coDate = "";
 var coRanking = 0;
+var resultsBack = 0;
 
 
 /*  --------------------------- Objects ----------------------------------------------*/
@@ -42,6 +43,8 @@ function get_pop_data (code) {
         //console.log(response);
 
         countryPop = response.fact[1].Value * 1000;
+        countryResults[1] = countryPop;
+        resultsBack ++;
 
     });
 
@@ -69,6 +72,8 @@ function get_rta_data (code) {
            else { rtaData = response.fact[1].Value; }
 
         if (!rtaData) { rtaData = 'n/a'; }
+        countryResults[2] = rtaData;
+        resultsBack ++;
 
         //console.log(code + ": Annual road traffic deaths (/100,000 population 2016) = " + rtaData);
 
@@ -100,6 +105,8 @@ function get_airpoll_data (code) {
         var airpollData = response.fact[0].Value; 
 
         if (!airpollData) { airpollData = 'n/a'; }
+        countryResults[3] = airpollData;
+        resultsBack ++;
 
         //console.log(code + "Air pollution annual deaths (number)= " + airpollData);
 
@@ -131,6 +138,8 @@ function get_natdis_data (code) {
         var natdisData = response.fact[0].Value; 
 
         if (!natdisData) { natdisData = 'n/a'; }
+        countryResults[4] = natdisData;
+        resultsBack ++;
 
         //console.log(code + ": Average deaths from natural disasters (/100,000 population (2011-2015) = " + natdisData);
 
@@ -162,6 +171,8 @@ function get_hygeine_data (code) {
         var hygeineData = response.fact[0].Value; 
 
         if (!hygeineData) { hygeineData = "n/a"; }
+        countryResults[5] = hygeineData;
+        resultsBack ++;
 
         //console.log(code + ": Deaths attributed to unsafe water hygeine (/100,000 population (year) = " + hygeineData);
 
@@ -193,10 +204,13 @@ function get_homocide_data (code) {
         var homocideData = response.fact[0].Value; 
 
         if (!homocideData) {  homocideData = "n/a"; }
+        countryResults[6] = homocideData;
+        resultsBack ++;
         //console.log(code + ": Homocides (/100,000 population (year) = " + homocideData);
 
         var elem = $('<div>').attr('id', 'results-div').text("Homocides (/100,000 population (year) = " + homocideData);
         $('#result').append(elem);
+
 
     });
 
@@ -241,6 +255,10 @@ function get_commdis_data (code) {
 
         if (!ntdData) { ntdData = 'n/a'; }
         if (!malariaData) {malariaData = "n/a"; }
+
+        countryResults[7] = ntdData;
+        countryResults[8] = malariaData;
+        resultsBack ++;
 
         //console.log(code + ": Malaria (cases/100/0000) (year) = " + malariaData);
         //console.log(code + ": hiv (cases/100,000) (year) = " + hivData);
@@ -294,6 +312,10 @@ function get_commdis_data (code) {
         if (!physiciansData) { physiciansData = "n/a"; }
         if (!nursesData) { nursesData = "n/a"; }
 
+        countryResults[9] = physiciansData;
+        countryResults[10] = nursesData;
+        resultsBack ++;
+
 
         //console.log(code + ": Physicians  (/100,000 population (year) = " + physiciansData);
         //console.log(code + ": Nurses (/100,000 population (year) = " + nursesData);
@@ -322,6 +344,8 @@ function display_searches () {
 
 
 function calculate_rank () {
+
+    console.log(countryResults);
 
   // use the data to calculate the ranking of user input country
 } 
@@ -398,7 +422,6 @@ $(function() {
     })
     .change(function() {
         country = $(this).typeahead("getActive");
-        //console.log(country);
     });
 });
 
@@ -409,8 +432,9 @@ $("#submit-button").on("click", function() {
     $('#country-code2').text(country.alpha2Code);
 
     countryInput = country.alpha3Code;
+    countryResults[0] = countryInput;
 
-        $('#results').empty();
+        $('#result').empty();
 
         var countryPop = get_pop_data (countryInput);
         var countryRTAData = get_rta_data (countryInput);
@@ -420,6 +444,30 @@ $("#submit-button").on("click", function() {
         var homocideData = get_homocide_data(countryInput);
         var commdisData = get_commdis_data(countryInput);
         var healthworkersData = get_healthworkers_data(countryInput);
+
+
+    //set up the table to hold the results
+
+    $('#result').append("<h3>" + country + "</h3>");
+    $('#result').append("<table>");
+
+
+    $('#result').append("<tr>Hazards<th></th><th>Raw data</th><th>Date(s)</th><th>Per 1000 population</th><th>Ranking</th></tr>");
+    $('#result').append("<tr><td>Road traffic deaths</td><td></td><td></td><td></td><td></td></tr>");
+    $('#result').append("<tr><td>Annual deaths due to air pollution</td><td></td><td></td><td></td></tr>");
+    $('#result').append("<tr><td>Average annual deaths from natural disasters</td><td></td><td></td><td></td><td></td></tr>");
+    $('#result').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td><td></td></tr>");
+    $('#result').append("<tr><td>Deathes from homocide</td><td></td><td></td><td></td><td></td></tr>");
+    $('#result').append("<tr><td>Malaria incidence</td><td></td><td></td><td></td><td></td></tr>");
+    $('#result').append("<tr><td>Tropical diseases</td><td></td><td></td><td></td><td></td></tr>");
+    $('#result').append("<tr>Healthcare<th></th><th></th><th></th><th></th><th></th></tr>");
+    $('#result').append("<tr><td>Number of physicians</td><td></td><td></td><td></td><td></td></tr>");
+    $('#result').append("<tr><td>Number of nurses</td><td></td><td></td><td></td><td></td></tr>");
+
+    $('#result').append("</table>");
+
+
+
         
 
 
@@ -433,29 +481,23 @@ $("#submit-button").on("click", function() {
         userWhoSearched: ""
     };
 
-
     // Firebase Inputs (push country selected to Firebase)
     database.ref().push(prevCountrySearch); 
 
 
-    //set interval timer to wait for countryResults[] arraty to be full then move on to rankig calculations using data in countryResults[] 
+    //set interval timer to wait for all results to be back and then call calculate_rank function
 
-    // var intervalId = setInterval( function() { 
+    var intervalId = setInterval( function() { 
 
-    //         while (countryResults.length < x /*total size data set*/ ) { /* dispaly "waiting .... " message in UX */ 
-    //                                                                      continue checking every 100ms
-    //                                                                      /*check to make sure a max time not exceeded as well*/                          
-    //         }
+        if (resultsBack < 8) { console.log("waiting .... "); }
+            else { 
+                clearInterval(intervalId); 
+                calculate_rank();
+            }                                                                     
+    }, 100);
 
-    //   }, 100);
-
-    // intervalId.clear();
-
-    /* call calculate-rank() */
-    /* call display-rank() */
-    /* call interpret-rank() */
-    /* if user logged in call save-search() */
 });
+
 
 // Output Firebase Data to Previous Search section
 
