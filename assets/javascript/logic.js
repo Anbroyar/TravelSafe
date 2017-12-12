@@ -10,6 +10,7 @@ $(document).ready(function() {
 
 var countryInput = "";
 var countryResults = [];
+var countryResultsYear = [];
 var country = "";
 var coDate = "";
 var coRanking = 0;
@@ -53,6 +54,7 @@ function get_pop_data (code) {
 
 function get_rta_data (code) {
 
+    var rtaData = "";
     var rtaURL = "http://apps.who.int/gho/athena/data/GHO/RS_196,RS_198.json?profile=simple&filter=COUNTRY:*";
     var queryURL = rtaURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code'
 
@@ -66,20 +68,24 @@ function get_rta_data (code) {
 
     .done(function(response) {
 
-        if (response.fact[0].dim.GHO.indexOf("per 100 000 population") > 0) { rtaData = response.fact[0].Value; }
-           else { rtaData = response.fact[1].Value; }
+        if (response.fact[0].dim.GHO.indexOf("per 100 000 population") > 0) { rtaData = response.fact[0].Value; rtaDataYear = response.fact[0].dim.YEAR; }
+           else { rtaData = response.fact[1].Value; rtaDataYear = response.fact[1].dim.YEAR;}
 
         rtaData = parseInt(rtaData.replace(/ /g,''));
 
-        console.log(code + ": Annual road traffic deaths (/100,000 population 2016) = " + rtaData);
+        if (isNaN(rtaData)) { 
 
-        if (!rtaData || isNaN(rtaData)) { rtaData = 'n/a'; }
-            else (rtaData = Math.round( rtaData * 10 ) / 10);
+            rtaData = 'no data'; 
+            $('#results-table tr:nth-child(2) td:nth-child(2)').text("no data");
+            }
+            else { 
+            (rtaData = Math.round( rtaData * 10 ) / 10); 
+            $('#results-table tr:nth-child(2) td:nth-child(2)').text("yes");
+            }
 
         countryResults[2] = rtaData;
+        countryResultsYear[2] = rtaDataYear;
         resultsBack ++;
-
-        $('#results-table tr:nth-child(2) td:nth-child(2)').text(rtaData.toLocaleString());
 
     });
 
@@ -89,6 +95,8 @@ function get_rta_data (code) {
  // get air pollution data
 
 function get_airpoll_data (code) { 
+
+    var airpollData = "";
 
     var airpollURL = "http://apps.who.int/gho/athena/data/GHO/AIR_5,AIR_50,AIR_41.json?profile=simple&filter=COUNTRY:*;REGION:*";
     var queryURL = airpollURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code'
@@ -103,18 +111,23 @@ function get_airpoll_data (code) {
 
     .done(function(response) {
 
-        var airpollData = response.fact[0].Value; 
+        airpollData = response.fact[0].Value; 
+        airpollDataYear = response.fact[0].dim.YEAR;
 
         airpollData = parseInt(airpollData.replace(/ /g,''));
 
-        console.log(code + "Air pollution annual deaths (number)= " + airpollData);
+        if (isNaN(airpollData)) {
+            airpollData = 'no data';
+            $('#results-table tr:nth-child(3) td:nth-child(2)').text("no data");
+            }
+            else {
+            airpollData = Math.round( airpollData * 10 ) / 10;
+            $('#results-table tr:nth-child(3) td:nth-child(2)').text("yes");
+            }
 
-        if (!airpollData || isNaN(airpollData)) { airpollData = 'n/a'; }
-            else (airpollData = Math.round( airpollData * 10 ) / 10);
         countryResults[3] = airpollData;
+        countryResultsYear[3] = airpollDataYear;
         resultsBack ++;
-
-        $('#results-table tr:nth-child(3) td:nth-child(2)').text(airpollData.toLocaleString());
 
     });
 
@@ -124,6 +137,8 @@ function get_airpoll_data (code) {
 // get natural disaster data 
 
 function get_natdis_data (code) {
+
+    var natdisData = "";
 
     var natdisURL = "http://apps.who.int/gho/athena/data/GHO/SDGDISASTER.json?profile=simple&filter=COUNTRY:*;REGION:*";
     var queryURL = natdisURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code'
@@ -138,17 +153,23 @@ function get_natdis_data (code) {
 
     .done(function(response) {
 
-        var natdisData = response.fact[0].Value; 
-        //natdisData = parseInt(natdisData);
+        natdisData = response.fact[0].Value; 
+        natdisDataYear = response.fact[0].dim.YEAR;
 
-        console.log(code + ": Average deaths from natural disasters (/100,000 population (2011-2015) = " + natdisData);
+        natdisData = parseInt(natdisData.replace(/</g,''));
 
-        if (!natdisData || isNaN(natdisData)) { natdisData = 'n/a'; }
-            else (natdisData = Math.ceil( natdisData * 10 ) / 10);
+        if (isNaN(natdisData)) { 
+            natdisData = 'no data'; 
+            $('#results-table tr:nth-child(4) td:nth-child(2)').text("no data");
+            }
+            else {
+            natdisData = Math.ceil( natdisData * 10 ) / 10;
+            $('#results-table tr:nth-child(4) td:nth-child(2)').text("yes");
+            }
+        
         countryResults[4] = natdisData;
-        resultsBack ++;
-
-        $('#results-table tr:nth-child(4) td:nth-child(2)').text(natdisData.toLocaleString());
+        countryResultsYear[4] = natdisDataYear;
+        resultsBack ++;    
 
     });
 
@@ -158,6 +179,8 @@ function get_natdis_data (code) {
 // get water hygeine data 
 
 function get_hygeine_data (code) {
+
+    var hygeineData = "";
 
     var hygeineURL = "http://apps.who.int/gho/athena/data/GHO/SDGWSHBOD.json?profile=simple&filter=COUNTRY:*";
     var queryURL = hygeineURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code'
@@ -172,17 +195,24 @@ function get_hygeine_data (code) {
 
     .done(function(response) {
 
-        var hygeineData = response.fact[0].Value; 
+        hygeineData = response.fact[0].Value; 
+        hygeineDataYear = response.fact[0].dim.YEAR; 
+
         hygeineData = parseInt(hygeineData.replace(/ /g,''));
 
-        console.log(code + ": Deaths attributed to unsafe water hygeine (/100,000 population (year) = " + hygeineData);
+        if (isNaN(hygeineData)) { 
 
-        if (!hygeineData || isNaN(hygeineData)) { hygeineData = "n/a"; }
-            else (hygeineData = Math.round( hygeineData * 10 ) / 10);
+            hygeineData = "no data"; 
+            $('#results-table tr:nth-child(5) td:nth-child(2)').text("no data");
+            }
+            else {
+            hygeineData = Math.round( hygeineData * 10 ) / 10;
+            $('#results-table tr:nth-child(5) td:nth-child(2)').text("yes");
+            }
+
         countryResults[5] = hygeineData;
+        countryResultsYear[5] = hygeineDataYear;
         resultsBack ++;
-
-        $('#results-table tr:nth-child(5) td:nth-child(2)').text(hygeineData.toLocaleString());
 
     });
 
@@ -191,6 +221,8 @@ function get_hygeine_data (code) {
 // get homocide rates
 
 function get_homocide_data (code) {
+
+    var homocideData = "";
 
     var homocideURL = "http://apps.who.int/gho/athena/data/GHO/VIOLENCE_HOMICIDENUM,VIOLENCE_HOMICIDERATE.json?profile=simple&filter=COUNTRY:*;AGEGROUP:-;SEX:-";
     var queryURL = homocideURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code
@@ -205,18 +237,23 @@ function get_homocide_data (code) {
 
     .done(function(response) {
 
-        var homocideData = response.fact[0].Value; 
+        homocideData = response.fact[0].Value;
+        homocideDataYear = response.fact[0].dim.YEAR;  
 
         homocideData = parseInt(homocideData.replace(/ /g,''));
 
-        console.log(code + ": Homocides (/100,000 population (year) = " + homocideData);
+        if (isNaN(homocideData)) { 
 
-        if (!homocideData || isNaN(homocideData)) { homocideData = "n/a"; }
-            else (homocideData = Math.round( homocideData * 10 ) / 10);
+            homocideData = "no data"; 
+            $('#results-table tr:nth-child(6) td:nth-child(2)').text("no data");
+            }
+            else {homocideData = Math.round( homocideData * 10 ) / 10;
+            $('#results-table tr:nth-child(6) td:nth-child(2)').text("yes");
+            }
+
         countryResults[6] = homocideData;
+        countryResultsYear[6] = homocideDataYear;
         resultsBack ++;
-
-        $('#results-table tr:nth-child(6) td:nth-child(2)').text(homocideData.toLocaleString());
 
     });
 
@@ -225,8 +262,8 @@ function get_homocide_data (code) {
 function get_commdis_data (code) {
 
     var ntdData = 0;
-    var malariaData = 0;
-    var ntdDataYear = 0;
+    var malariaData = "";
+    var ntdDataYear = "";
     var malariaDataYear = 0;
     var x = 0;
 
@@ -242,6 +279,8 @@ function get_commdis_data (code) {
     })
 
     .done(function(response) {
+
+        console.log(response)
 
         for (x=0; x < response.fact.length; x++) {
             if (response.fact[x].dim.GHO == "Reported number of people requiring interventions against NTDs" && response.fact[x].dim.YEAR > ntdDataYear) {
@@ -260,20 +299,29 @@ function get_commdis_data (code) {
         ntdData = parseInt(ntdData.replace(/ /g,''));
         malariaData = parseInt(malariaData.replace(/ /g,''));
 
-        console.log(code + ": Malaria (cases/100/0000) (year) = " + malariaData);
-        console.log(code + ": Tropical disease cases (year) = " + ntdData);
+        if (isNaN(ntdData)) {
+            ntdData = "no data"; 
+            $('#results-table tr:nth-child(7) td:nth-child(2)').text("no data");
+            }
+            else { 
+            ntdData = Math.round( ntdData * 10 ) / 10;
+            $('#results-table tr:nth-child(7) td:nth-child(2)').text("yes");
+            }
 
-        if (!ntdData|| isNaN(ntdData)) { ntdData = 'n/a'; }
-            else (ntdData = Math.round( ntdData * 10 ) / 10);
-        if (!malariaData|| isNaN(malariaData)) {malariaData = "n/a"; }
-            else (malariaData = Math.round( malariaData * 10 ) / 10);
+        if (isNaN(malariaData)) {
+            malariaData = "no data"; 
+            $('#results-table tr:nth-child(8) td:nth-child(2)').text("no data");
+            }
+            else { 
+            malariaData = Math.round( malariaData * 10 ) / 10;
+            $('#results-table tr:nth-child(8) td:nth-child(2)').text("yes");
+            }
 
-        countryResults[7] = ntdData;
-        countryResults[8] = malariaData;
+        countryResults[7] = malariaData;
+        countryResultsYear[7] = malariaDataYear;
+        countryResults[8] = ntdData;
+        countryResultsYear[8] = ntdDataYear;
         resultsBack ++;
-
-        $('#results-table tr:nth-child(7) td:nth-child(2)').text(malariaData.toLocaleString());
-        $('#results-table tr:nth-child(8) td:nth-child(2)').text(ntdData.toLocaleString());
 
     });
 
@@ -282,6 +330,12 @@ function get_commdis_data (code) {
     // get health personnel data 
 
     function get_healthworkers_data (code) {
+
+    var physiciansData = "";
+    var nursesData = "";
+    var physiciansDataYear = 0;
+    var nursesDataYear = 0;
+    var x = 0;
 
     var healthworkersURL = "http://apps.who.int/gho/athena/data/GHO/HRH_26,HRH_33,HRH_28,HRH_25,HRH_27,HRH_31,HRH_29,HRH_30,HRH_32.json?profile=simple&filter=COUNTRY:*";
     var queryURL = healthworkersURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code'
@@ -295,12 +349,6 @@ function get_commdis_data (code) {
     })
 
     .done(function(response) {
-
-        var physiciansData = 0;
-        var nursesData = 0;
-        var physiciansDataYear = 0;
-        var nursesDataYear = 0;
-        var x = 0;
 
         for (x=0; x < response.fact.length; x++) {
             if (response.fact[x].dim.GHO == "Physicians density (per 1000 population)" && response.fact[x].dim.YEAR > physiciansDataYear) {
@@ -316,23 +364,32 @@ function get_commdis_data (code) {
             }
         }
 
-        physiciansData = physiciansData.replace(/ /g,'') * 100;
-        nursesData = nursesData.replace(/ /g,'') * 100;
+        physiciansData = physiciansData.replace(/ /g,'');
+        nursesData = nursesData.replace(/ /g,'');
 
-        console.log(code + ": Physicians  (/100,000 population (year) = " + physiciansData);
-        console.log(code + ": Nurses (/100,000 population (year) = " + nursesData);
+        if (isNaN(physiciansData)) {
+            physiciansData = "no data"; 
+            $('#results-table tr:nth-child(10) td:nth-child(2)').text("no data");
+            }
+            else { 
+            physiciansData = Math.round( physiciansData * 10 ) / 10;
+            $('#results-table tr:nth-child(10) td:nth-child(2)').text("yes");
+            }
 
-        if (!physiciansData || isNaN(physiciansData)) { physiciansData = "n/a"; }
-            else (physiciansData = Math.round( physiciansData * 10 ) / 10);
-        if (!nursesData || isNaN(nursesData)) { nursesData = "n/a"; }
-            else (nursesData = Math.round( nursesData * 10 ) / 10);
+        if (isNaN(nursesData)) {
+            nursesData = "no data"; 
+            $('#results-table tr:nth-child(11) td:nth-child(2)').text("no data");
+            }
+            else { 
+            nursesData = Math.round( nursesData * 10 ) / 10;
+            $('#results-table tr:nth-child(11) td:nth-child(2)').text("yes");
+            }
 
         countryResults[9] = physiciansData;
+        countryResultsYear[9] = physiciansDataYear;
         countryResults[10] = nursesData;
+        countryResultsYear[10] = nursesDataYear;
         resultsBack ++;
-
-        $('#results-table tr:nth-child(10) td:nth-child(2)').text(physiciansData.toLocaleString());
-        $('#results-table tr:nth-child(11) td:nth-child(2)').text(nursesData.toLocaleString());
 
    });
 
@@ -354,6 +411,36 @@ function display_searches () {
 function calculate_rank () {
 
     console.log(countryResults);
+    console.log(countryResultsYear);
+
+    if (countryResults[3] != "no data") { countryResults[3] = Math.round(countryResults[3]/(parseInt(countryResults[1])/100000)); }
+    if (countryResults[7] != "no data") { countryResults[7] = countryResults[7]*100; }
+    if (countryResults[8] != "no data") { countryResults[8] = Math.round(countryResults[8]/((parseInt(countryResults[1]))/100000)); }
+    if (countryResults[9] != "no data") { countryResults[9] = countryResults[9]*100; }
+    if (countryResults[10] != "no data") { countryResults[10] = countryResults[10]*100; }
+
+
+    $('#results-table tr:nth-child(2) td:nth-child(4)').text(countryResults[2].toLocaleString());
+    $('#results-table tr:nth-child(3) td:nth-child(4)').text(countryResults[3].toLocaleString());
+    $('#results-table tr:nth-child(4) td:nth-child(4)').text(countryResults[4].toLocaleString());
+    $('#results-table tr:nth-child(5) td:nth-child(4)').text(countryResults[5].toLocaleString());
+    $('#results-table tr:nth-child(6) td:nth-child(4)').text(countryResults[6].toLocaleString());
+    $('#results-table tr:nth-child(7) td:nth-child(4)').text(countryResults[7].toLocaleString());
+    $('#results-table tr:nth-child(8) td:nth-child(4)').text(countryResults[8].toLocaleString());
+    $('#results-table tr:nth-child(10) td:nth-child(4)').text(countryResults[9].toLocaleString());
+    $('#results-table tr:nth-child(11) td:nth-child(4)').text(countryResults[10].toLocaleString());
+
+
+    $('#results-table tr:nth-child(2) td:nth-child(5)').text(countryResultsYear[2]);
+    $('#results-table tr:nth-child(3) td:nth-child(5)').text(countryResultsYear[3]);
+    $('#results-table tr:nth-child(4) td:nth-child(5)').text(countryResultsYear[4]);
+    $('#results-table tr:nth-child(5) td:nth-child(5)').text(countryResultsYear[5]);
+    $('#results-table tr:nth-child(6) td:nth-child(5)').text(countryResultsYear[6]);
+    $('#results-table tr:nth-child(7) td:nth-child(5)').text(countryResultsYear[7]);
+    $('#results-table tr:nth-child(8) td:nth-child(5)').text(countryResultsYear[8]);
+    $('#results-table tr:nth-child(10) td:nth-child(5)').text(countryResultsYear[9]);
+    $('#results-table tr:nth-child(11) td:nth-child(5)').text(countryResultsYear[10]);
+
 
   // use the data to calculate the ranking of user input country
 } 
@@ -442,6 +529,8 @@ $("#submit-button").on("click", function() {
     countryResults[0] = countryInput;
 
         $('#result').empty();
+        countryResults.length = 0;
+        resultsBack = 0;
 
         var countryPop = get_pop_data (countryInput);
         var countryRTAData = get_rta_data (countryInput);
@@ -461,12 +550,12 @@ $("#submit-button").on("click", function() {
     $('#result').append(resultsTable);
 
 
-    $('#results-table').append("<tr><th>Hazards</th><th>Raw data</th><th>Date(s)</th><th>Per 1000 population</th><th>Ranking</th></tr>");
+    $('#results-table').append("<tr><th>Hazards</th><th>Available</th><th>Date(s)</th><th>Per 100,000 population</th><th>Ranking</th></tr>");
     $('#results-table').append("<tr><td>Road traffic deaths</td><td></td><td></td><td></td><td></td></tr>");
     $('#results-table').append("<tr><td>Annual deaths due to air pollution</td><td></td><td></td><td></td></tr>");
     $('#results-table').append("<tr><td>Average annual deaths from natural disasters</td><td></td><td></td><td></td><td></td></tr>");
     $('#results-table').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Deathes from homocide</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table').append("<tr><td>Deaths from homocide</td><td></td><td></td><td></td><td></td></tr>");
     $('#results-table').append("<tr><td>Malaria incidence</td><td></td><td></td><td></td><td></td></tr>");
     $('#results-table').append("<tr><td>Tropical diseases</td><td></td><td></td><td></td><td></td></tr>");
     $('#results-table').append("<tr><th>Healthcare<th></th><th></th><th></th><th></th><th></th></tr>");
