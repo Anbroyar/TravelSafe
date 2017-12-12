@@ -11,6 +11,7 @@ $(document).ready(function() {
 var countryInput = "";
 var countryResults = [];
 var countryResultsYear = [];
+var countryRankings = [];
 var country = "";
 var coDate = "";
 var coRanking = 0;
@@ -40,8 +41,18 @@ function get_pop_data (code) {
     })
 
     .done(function(response) {
+        console.log (response)
+        console.log(response.fact[0].Value)
 
-        countryPop = response.fact[1].Value * 1000;
+        for (x=0; x < response.fact.length; x++) {
+            if (response.fact[x].dim.GHO == "Population (in thousands) total") {
+                var pop = response.fact[x].Value;
+            }
+
+        }
+        if (pop.indexOf('E') > 0) { countryPop = (pop.slice(0,3))*1000000000; }
+        else {countryPop = pop * 1000; }
+
         countryResults[1] = countryPop;
         resultsBack ++;
 
@@ -309,8 +320,8 @@ function get_commdis_data (code) {
             }
 
         if (isNaN(malariaData)) {
-            malariaData = "no data"; 
-            $('#results-table tr:nth-child(8) td:nth-child(2)').text("no data");
+            malariaData = "0"; 
+            $('#results-table tr:nth-child(8) td:nth-child(2)').text("yes");
             }
             else { 
             malariaData = Math.round( malariaData * 10 ) / 10;
@@ -431,15 +442,37 @@ function calculate_rank () {
     $('#results-table tr:nth-child(11) td:nth-child(4)').text(countryResults[10].toLocaleString());
 
 
-    $('#results-table tr:nth-child(2) td:nth-child(5)').text(countryResultsYear[2]);
-    $('#results-table tr:nth-child(3) td:nth-child(5)').text(countryResultsYear[3]);
-    $('#results-table tr:nth-child(4) td:nth-child(5)').text(countryResultsYear[4]);
-    $('#results-table tr:nth-child(5) td:nth-child(5)').text(countryResultsYear[5]);
-    $('#results-table tr:nth-child(6) td:nth-child(5)').text(countryResultsYear[6]);
-    $('#results-table tr:nth-child(7) td:nth-child(5)').text(countryResultsYear[7]);
-    $('#results-table tr:nth-child(8) td:nth-child(5)').text(countryResultsYear[8]);
-    $('#results-table tr:nth-child(10) td:nth-child(5)').text(countryResultsYear[9]);
-    $('#results-table tr:nth-child(11) td:nth-child(5)').text(countryResultsYear[10]);
+    //$('#results-table tr:nth-child(2) td:nth-child(5)').text(countryResultsYear[2]);
+    // $('#results-table tr:nth-child(3) td:nth-child(5)').text(countryResultsYear[3]);
+    // $('#results-table tr:nth-child(4) td:nth-child(5)').text(countryResultsYear[4]);
+    // $('#results-table tr:nth-child(5) td:nth-child(5)').text(countryResultsYear[5]);
+    // $('#results-table tr:nth-child(6) td:nth-child(5)').text(countryResultsYear[6]);
+    // $('#results-table tr:nth-child(7) td:nth-child(5)').text(countryResultsYear[7]);
+    // $('#results-table tr:nth-child(8) td:nth-child(5)').text(countryResultsYear[8]);
+    // $('#results-table tr:nth-child(10) td:nth-child(5)').text(countryResultsYear[9]);
+    // $('#results-table tr:nth-child(11) td:nth-child(5)').text(countryResultsYear[10]);
+
+    countryRankings[2] = Math.round(((countryResults[2] - 2.5)/38)*10);
+    countryRankings[3] = Math.round(((countryResults[3] - 0)/700)*10);
+    countryRankings[4] = Math.round(((countryResults[4] - 0)/7.2)*10);
+    countryRankings[5] = Math.round(((countryResults[5] - 0)/112)*10);
+    countryRankings[6] = Math.round(((countryResults[6] - 1)/85)*10);
+    countryRankings[7] = Math.round(((countryResults[7] - 0)/500)*10);
+    countryRankings[8] = Math.round(((countryResults[8] - 0)/countryResults[1])*10);
+    countryRankings[9] = Math.round(((countryResults[9] - 0)/400)*10);
+    countryRankings[10] = Math.round(((countryResults[10] - 0)/1250)*10);
+
+    $('#results-table tr:nth-child(2) td:nth-child(5)').text(countryRankings[2]);
+    $('#results-table tr:nth-child(3) td:nth-child(5)').text(countryRankings[3]);
+    $('#results-table tr:nth-child(4) td:nth-child(5)').text(countryRankings[4]);
+    $('#results-table tr:nth-child(5) td:nth-child(5)').text(countryRankings[5]);
+    $('#results-table tr:nth-child(6) td:nth-child(5)').text(countryRankings[6]);
+    $('#results-table tr:nth-child(7) td:nth-child(5)').text(countryRankings[7]);
+    $('#results-table tr:nth-child(8) td:nth-child(5)').text(countryRankings[8]);
+    $('#results-table tr:nth-child(10) td:nth-child(5)').text(countryRankings[9]);
+    $('#results-table tr:nth-child(11) td:nth-child(5)').text(countryRankings[10]);
+
+
 
 
   // use the data to calculate the ranking of user input country
