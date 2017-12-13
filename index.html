@@ -42,7 +42,7 @@
             </div>
             <div class="row">
                 <div class="col-md-8">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Country Search</h3>
                         </div>
@@ -50,12 +50,12 @@
             	            <div class="form-group">
             	        	    <input id="country" type="text" class="typeahead form-control" name="country" data-provide="typeahead" placeholder="Type in a country name here..."/>
             	            </div>
-                            <button type="button" id="submit-button" class="btn btn-default moving">Submit</button>
+                            <button type="button" id="submit-button" class="btn btn-primary moving">Submit</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                	<div class="panel panel-default">
+                	<div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Previous Search</h3>
                         </div>
@@ -66,7 +66,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Search Results</h3>
                         </div>
@@ -81,7 +81,7 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="panel panel-default panel-right">
+                    <div class="panel panel-primary panel-right">
                         <div class="panel-heading">
                             <h3 class="panel-title">TOP5 The Safest Counties</h3>
                         </div>
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">TOP5 The Most Dangerous Counties</h3>
                         </div>
@@ -99,7 +99,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Maps</h3>
                         </div>
@@ -109,14 +109,18 @@
             </div>
             
             <div class="row">
-                <div class="col-md-4">
-                    <img src="">
+                <div id="alerts" class="col-md-4 link">
+                    <h3>Alerts and Warnings</h3>
+                    <a href="https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html.html"><img class="image" src="assets/images/Travel-Warning.jpg"></a>
                 </div>
-                <div class="col-md-4">
-                    
+                <div id="vaccines" class="col-md-4 link">
+                    <h3>Vaccines</h3>
+                    <a href="https://wwwnc.cdc.gov/travel"><img class="image" src="assets/images/international-vaccinations.jpg"></a>
                 </div>
-                <div class="col-md-4">
-                    
+                <div id="safety" class="col-md-4 link">
+                    <h3>10 important safety tips</h3>
+                    <a href="https://www.usatoday.com/story/travel/advice/2015/02/19/safety-tips/23617237/"><img 
+                    class="image" src="assets/images/safety-first.jpg"></a>
                 </div>
             </div>
         </div>
@@ -128,6 +132,7 @@
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPRtdp3P0ME6cDwBU43mWAIrt-Dxcj0mM&callback=initMap">
 </script>
+
 <script type="text/javascript" src="assets/javascript/googlemaps.js"></script>
 
 
