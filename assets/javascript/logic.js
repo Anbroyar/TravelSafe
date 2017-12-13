@@ -248,8 +248,10 @@ function get_homocide_data (code) {
 
     .done(function(response) {
 
-        homocideData = response.fact[0].Value;
-        homocideDataYear = response.fact[0].dim.YEAR;  
+        console.log(response);
+
+        if (response.fact[0].dim.GHO.indexOf("per 100 000 population") > 0) { homocideData = response.fact[0].Value; homocideDataYear = response.fact[0].dim.YEAR; }
+           else { homocideData = response.fact[1].Value; homocideDataYear = response.fact[1].dim.YEAR;} 
 
         homocideData = parseInt(homocideData.replace(/ /g,''));
 
@@ -290,8 +292,6 @@ function get_commdis_data (code) {
     })
 
     .done(function(response) {
-
-        console.log(response)
 
         for (x=0; x < response.fact.length; x++) {
             if (response.fact[x].dim.GHO == "Reported number of people requiring interventions against NTDs" && response.fact[x].dim.YEAR > ntdDataYear) {
@@ -421,8 +421,8 @@ function display_searches () {
 
 function calculate_rank () {
 
-    console.log(countryResults);
-    console.log(countryResultsYear);
+    //console.log(countryResults);
+    //console.log(countryResultsYear);
 
     if (countryResults[3] != "no data") { countryResults[3] = Math.round(countryResults[3]/(parseInt(countryResults[1])/100000)); }
     if (countryResults[7] != "no data") { countryResults[7] = countryResults[7]*100; }
@@ -431,47 +431,41 @@ function calculate_rank () {
     if (countryResults[10] != "no data") { countryResults[10] = countryResults[10]*100; }
 
 
-    $('#results-table tr:nth-child(2) td:nth-child(4)').text(countryResults[2].toLocaleString());
-    $('#results-table tr:nth-child(3) td:nth-child(4)').text(countryResults[3].toLocaleString());
-    $('#results-table tr:nth-child(4) td:nth-child(4)').text(countryResults[4].toLocaleString());
-    $('#results-table tr:nth-child(5) td:nth-child(4)').text(countryResults[5].toLocaleString());
-    $('#results-table tr:nth-child(6) td:nth-child(4)').text(countryResults[6].toLocaleString());
-    $('#results-table tr:nth-child(7) td:nth-child(4)').text(countryResults[7].toLocaleString());
-    $('#results-table tr:nth-child(8) td:nth-child(4)').text(countryResults[8].toLocaleString());
-    $('#results-table tr:nth-child(10) td:nth-child(4)').text(countryResults[9].toLocaleString());
-    $('#results-table tr:nth-child(11) td:nth-child(4)').text(countryResults[10].toLocaleString());
+    $('#results-table tr:nth-child(2) td:nth-child(3)').text(countryResults[2].toLocaleString());
+    $('#results-table tr:nth-child(3) td:nth-child(3)').text(countryResults[3].toLocaleString());
+    $('#results-table tr:nth-child(4) td:nth-child(3)').text(countryResults[4].toLocaleString());
+    $('#results-table tr:nth-child(5) td:nth-child(3)').text(countryResults[5].toLocaleString());
+    $('#results-table tr:nth-child(6) td:nth-child(3)').text(countryResults[6].toLocaleString());
+    $('#results-table tr:nth-child(7) td:nth-child(3)').text(countryResults[7].toLocaleString());
+    $('#results-table tr:nth-child(8) td:nth-child(3)').text(countryResults[8].toLocaleString());
+    $('#results-table tr:nth-child(10) td:nth-child(3)').text(countryResults[9].toLocaleString());
+    $('#results-table tr:nth-child(11) td:nth-child(3)').text(countryResults[10].toLocaleString());
 
 
-    //$('#results-table tr:nth-child(2) td:nth-child(5)').text(countryResultsYear[2]);
-    // $('#results-table tr:nth-child(3) td:nth-child(5)').text(countryResultsYear[3]);
-    // $('#results-table tr:nth-child(4) td:nth-child(5)').text(countryResultsYear[4]);
-    // $('#results-table tr:nth-child(5) td:nth-child(5)').text(countryResultsYear[5]);
-    // $('#results-table tr:nth-child(6) td:nth-child(5)').text(countryResultsYear[6]);
-    // $('#results-table tr:nth-child(7) td:nth-child(5)').text(countryResultsYear[7]);
-    // $('#results-table tr:nth-child(8) td:nth-child(5)').text(countryResultsYear[8]);
-    // $('#results-table tr:nth-child(10) td:nth-child(5)').text(countryResultsYear[9]);
-    // $('#results-table tr:nth-child(11) td:nth-child(5)').text(countryResultsYear[10]);
+    countryRankings[2] = Math.ceil((countryResults[2]/40)*10);
+    countryRankings[3] = Math.ceil((countryResults[3]/100)*10);
+    countryRankings[4] = Math.ceil((countryResults[4]/8)*10);
+    countryRankings[5] = Math.ceil((countryResults[5]/120)*10);
+    countryRankings[6] = Math.ceil((countryResults[6]/85)*10);
+    countryRankings[7] = Math.ceil((countryResults[7]/20000)*10);
+    countryRankings[8] = Math.ceil((countryResults[8]/100000)*10);
 
-    countryRankings[2] = Math.round(((countryResults[2] - 2.5)/38)*10);
-    countryRankings[3] = Math.round(((countryResults[3] - 0)/700)*10);
-    countryRankings[4] = Math.round(((countryResults[4] - 0)/7.2)*10);
-    countryRankings[5] = Math.round(((countryResults[5] - 0)/112)*10);
-    countryRankings[6] = Math.round(((countryResults[6] - 1)/85)*10);
-    countryRankings[7] = Math.round(((countryResults[7] - 0)/500)*10);
-    countryRankings[8] = Math.round(((countryResults[8] - 0)/countryResults[1])*10);
-    countryRankings[9] = Math.round(((countryResults[9] - 0)/400)*10);
-    countryRankings[10] = Math.round(((countryResults[10] - 0)/1250)*10);
+    countryRankings[9] = Math.ceil((countryResults[9]/400)*10);
+    countryRankings[10] = Math.ceil((countryResults[10]/1250)*10);
 
-    $('#results-table tr:nth-child(2) td:nth-child(5)').text(countryRankings[2]);
-    $('#results-table tr:nth-child(3) td:nth-child(5)').text(countryRankings[3]);
-    $('#results-table tr:nth-child(4) td:nth-child(5)').text(countryRankings[4]);
-    $('#results-table tr:nth-child(5) td:nth-child(5)').text(countryRankings[5]);
-    $('#results-table tr:nth-child(6) td:nth-child(5)').text(countryRankings[6]);
-    $('#results-table tr:nth-child(7) td:nth-child(5)').text(countryRankings[7]);
-    $('#results-table tr:nth-child(8) td:nth-child(5)').text(countryRankings[8]);
-    $('#results-table tr:nth-child(10) td:nth-child(5)').text(countryRankings[9]);
-    $('#results-table tr:nth-child(11) td:nth-child(5)').text(countryRankings[10]);
+    $('#results-table tr:nth-child(2) td:nth-child(4)').text(countryRankings[2]);
+    $('#results-table tr:nth-child(3) td:nth-child(4)').text(countryRankings[3]);
+    $('#results-table tr:nth-child(4) td:nth-child(4)').text(countryRankings[4]);
+    $('#results-table tr:nth-child(5) td:nth-child(4)').text(countryRankings[5]);
+    $('#results-table tr:nth-child(6) td:nth-child(4)').text(countryRankings[6]);
+    $('#results-table tr:nth-child(7) td:nth-child(4)').text(countryRankings[7]);
+    $('#results-table tr:nth-child(8) td:nth-child(4)').text(countryRankings[8]);
+    $('#results-table tr:nth-child(10) td:nth-child(4)').text(countryRankings[9]);
+    $('#results-table tr:nth-child(11) td:nth-child(4)').text(countryRankings[10]);
 
+    var hazardRank = 0;
+    var healthRank = 0;
+    var travelsafeRank = 0;
 
 
 
@@ -558,8 +552,9 @@ $("#submit-button").on("click", function() {
     $('#country-code').text(country.alpha3Code);
     $('#country-code2').text(country.alpha2Code);
 
+    countryName = country.name;
     countryInput = country.alpha3Code;
-    countryResults[0] = countryInput;
+    countryResults[0] = country.name;
 
         $('#result').empty();
         countryResults.length = 0;
@@ -574,6 +569,8 @@ $("#submit-button").on("click", function() {
         var commdisData = get_commdis_data(countryInput);
         var healthworkersData = get_healthworkers_data(countryInput);
 
+        updateMap(countryName);
+
 
     //set up the table to hold the results
 
@@ -583,17 +580,23 @@ $("#submit-button").on("click", function() {
     $('#result').append(resultsTable);
 
 
-    $('#results-table').append("<tr><th>Hazards</th><th>Available</th><th>Date(s)</th><th>Per 100,000 population</th><th>Ranking</th></tr>");
-    $('#results-table').append("<tr><td>Road traffic deaths</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table').append("<tr><th>Hazards</th><th>Available</th><th>Per 100,000 population</th><th>Ranking</th></tr>");
+    $('#results-table').append("<tr><td>Road traffic deaths</td><td></td><td></td><td></td></tr>");
     $('#results-table').append("<tr><td>Annual deaths due to air pollution</td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Average annual deaths from natural disasters</td><td></td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Deaths from homocide</td><td></td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Malaria incidence</td><td></td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Tropical diseases</td><td></td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><th>Healthcare<th></th><th></th><th></th><th></th><th></th></tr>");
-    $('#results-table').append("<tr><td>Number of physicians</td><td></td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Number of nurses</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table').append("<tr><td>Average annual deaths from natural disasters</td><td></td><td></td><td></td></tr>");
+    $('#results-table').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td></tr>");
+    $('#results-table').append("<tr><td>Deaths from homocide</td><td></td><td></td><td></td></tr>");
+    $('#results-table').append("<tr><td>Malaria incidence</td><td></td><td></td><td></td></tr>");
+    $('#results-table').append("<tr><td>Tropical diseases</td><td></td><td></td><td></td></tr>");
+    $('#results-table').append("<tr><td>Overall Hazard rank</td><td></td><td></td><td></td></tr>");
+
+
+    $('#results-table').append("<tr> <th>Healthcare</th> <th></th> <th></th> <th></th> </tr>");
+    $('#results-table').append("<tr> <td>Number of physicians</td> <td></td> <td></td> <td></td> </tr>");
+    $('#results-table').append("<tr> <td>Number of nurses</td> <td> </td> <td></td> <td></td> </tr>");
+    $('#results-table').append("<tr> <td>Overall healthcare rank</td> <td></td> <td></td> <td></td> </tr>");
+
+    $('#results-table').append("<tr><td>Overall TravelSafe ranking</td><td></td><td></td><td></td></tr>");
 
 
 
