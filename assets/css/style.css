@@ -37,3 +37,6 @@ color: #fff;
 	margin: auto;
 	border-radius: 20px;
 }
+#recent-search-table {
+	max-height: 150px;
+}
