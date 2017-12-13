@@ -535,20 +535,28 @@ function interpret_rank () {
 
 function top_ranks () {
 
-    // check firebase db for recent record of top/bottom 5 ranked countries- if found load and use
-    // otherwise calculate the top 5 ranked country rankings (dispaly initialising " message ..."")
-    // and the bottom 5 ranked countries
-    // and display on page
-    // calculate average ranking for top 5 and bottom 5 countries 
-    //     and place them in global variables to use to calculate other country rankings on a scale top-bottom
-    // store in firebase with timestamp to recalculate every week or month or so. 
+console.log ("hereeeeee")
+
+$("#top-safest-table > tbody").append("<tr><td>Iceland</td><td>10</td></tr>");
+$("#top-safest-table > tbody").append("<tr><td>Norway</td><td>10</td></tr>");
+$("#top-safest-table > tbody").append("<tr><td>Australia</td><td>9</td></tr>");
+$("#top-safest-table > tbody").append("<tr><td>Belgium</td><td>8</td></tr>");
+$("#top-safest-table > tbody").append("<tr><td>Denmark</td><td>7</td></tr>");
+
+$("#top-dangerous-table > tbody").append("<tr><td>Mozambique</td><td>8</td></tr>");
+$("#top-dangerous-table > tbody").append("<tr><td>liberia</td><td>7</td></tr>");
+$("#top-dangerous-table > tbody").append("<tr><td>Angola</td><td>7</td></tr>");
+$("#top-dangerous-table > tbody").append("<tr><td>Afghanistan</td><td>4</td></tr>");
+$("#top-dangerous-table > tbody").append("<tr><td>Yemen</td><td>6</td></tr>");
+
 }
 
 
-function save_searche () {
+function save_search () {
 
     // save searches to firebase
 }
+
 
 // GOOGLE SIGN IN 
 // --------------------------------------------------------------------------------//
@@ -707,8 +715,8 @@ $("#submit-button").on("click", function() {
     $('#results-table > tbody').append("<tr><td>Average annual deaths from natural disasters</td><td></td><td></td><td></td></tr>");
     $('#results-table > tbody').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td></tr>");
     $('#results-table > tbody').append("<tr><td>Deaths from homocide</td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Malaria incidence</td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Tropical diseases</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Malaria (new cases/year)</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Tropical diseases (new cases/year</td><td></td><td></td><td></td></tr>");
     $('#results-table > tbody').append("<tr><td>Overall Hazard rank</td><td></td><td></td><td></td></tr>");
     $('#results-table > tbody').append("<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
 

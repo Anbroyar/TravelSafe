@@ -2,20 +2,24 @@ body {
 	margin-top: 50px;
 	background-image: url(../images/grey-background.jpg);
 }
+
 nav {
     height: 20px;
 }
+
 header {
 	margin: 80px 10px 20px 10px;
 	background-image: url(../images/world-map.jpg);
 	height: 200px;
 	border-radius: 20px;
 }
+
 header h1 {
 color: #fff;
 	font-size: 100px;
 	text-align: center;
 }
+
 #map-result {
 	height: 400px; 
 	width: 100%;"
@@ -24,19 +28,29 @@ color: #fff;
 .moving {
 	float: right;
 }
-.search {
+
+.top-box-height {
+	height: 230px;
+}
+
+
+.search-box-height {
 	height: 150px;
 }
+
 .link h3{
 	color: #fff;
 	text-align: center;
 	background-color: #0077b3;
 	border-radius: 5px;
 }
+
 .image {
+	width: 100%;
 	margin: auto;
 	border-radius: 20px;
 }
+
 #recent-search-panel {
 	max-height: 188px;
 	overflow-y: scroll;
