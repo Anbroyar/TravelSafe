@@ -21,6 +21,16 @@
 <!-- Firebase Reference -->
 <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
 
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
+
+<!-- Leave out Storage -->
+<!-- <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-storage.js"></script> -->
+
+
 <!-- Moment.js Reference -->
 <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
@@ -32,9 +42,10 @@
             <div class="container">
             	<form class="navbar-form navbar-right" role="login">
             	    <div class="form-group">
-            		    <input type="text" class="form-control" placeholder="Login">
+            		    <input type="text" id="login-auth" class="form-control" placeholder="Login">
             	    </div>
-            	    <button type="submit" class="btn btn-primary">Login</button>
+            	    <button type="submit" id="login-btn" class="btn btn-primary">Login</button>
+                    <button type="submit" id="sign-up-btn" class="btn btn-primary">Sign Up</button>
             	</form>
              </div>
         </nav>

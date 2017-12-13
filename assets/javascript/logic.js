@@ -4,6 +4,18 @@
 
 $(document).ready(function() {
 
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyB1zD5vvuhDY0N2PLKgMkIqLCLcz8fqeIk",
+    authDomain: "travelsafe-4a936.firebaseapp.com",
+    databaseURL: "https://travelsafe-4a936.firebaseio.com",
+    projectId: "travelsafe-4a936",
+    storageBucket: "travelsafe-4a936.appspot.com",
+    messagingSenderId: "1075160018454"
+};
+
+firebase.initializeApp(config);
+var database = firebase.database();
 
 /*  --------------------------- Global variables -------------------------------------*/
 
@@ -510,6 +522,64 @@ function save_searche () {
     // save searches to firebase
 }
 
+function toggleSignIn() {
+    if (firebase.auth().currentuser) {
+    // Start signout
+    firebase.auth().signOut();
+    // End signout
+    } else {
+        var token = document.getElementById("token").value;
+        if (token.length < 10) {
+            alert('Please enter a login into the text area');
+            return;
+        }
+    // Sign in with custom token generated following previous instructions
+    // Start with authwith token
+    firebase.auth().signInWithCustomToken(token).catch(function(error) {
+        // Handle errors here
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode === 'auth/invalid-custom-token') {
+            alert('The token you provided is not valid.');
+        } else {
+            console.error(error);
+        }
+      // [END_EXCLUDE]
+    });
+    // [END authwithtoken]
+  }
+  document.getElementById('sign-up-btn').disabled = true;  
+}
+
+function initApp() {
+    // Listening for auth state changes
+    // Start authstatelistener
+    firebase.auth().onAuthStateChanged(function(user) {
+        console.log(user);
+        if (user) {
+            // User is signed in 
+            var displayName = user.displayName;
+            var email = user.email;
+            var emailVerified = user.emailVerified;
+            var photoURL = user.photoURL;
+            var isAnonymous = user.isAnonymous;
+            var uid = user.uid;
+            var providerData = user.providerData;
+        }
+        $('#sign-up-btn').on('click', toggleSignIn);
+    })
+}
+
+window.onload = function() {
+    initApp();
+
+    // If a token has been passed throught the sign-in login, we start the sign-in process
+    if (document.getElementById('token').value) {
+    firebase.auth().signInWithCustomToken(getHashValue('token'));
+    }
+};
+
 
 /*  --------------------------- Calls ---------------------------------------------*/
 
@@ -523,19 +593,6 @@ display_searches ();  // if user logged in load and dispaly users previous searc
 
 // then listen for user to input a country to search
 
-
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyB1zD5vvuhDY0N2PLKgMkIqLCLcz8fqeIk",
-    authDomain: "travelsafe-4a936.firebaseapp.com",
-    databaseURL: "https://travelsafe-4a936.firebaseio.com",
-    projectId: "travelsafe-4a936",
-    storageBucket: "travelsafe-4a936.appspot.com",
-    messagingSenderId: "1075160018454"
-};
-
-firebase.initializeApp(config);
-var database = firebase.database();
 
 
 /*  --------------------------- Event listeners ---------------------------------------------*/
