@@ -1,37 +1,75 @@
+       var map;
+        var infoWindow;
+        var service;
 
-/*var map, infoWindow;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map-result'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8,
-          mapTypeId: 'terrain'
-        });
-        infoWindow = new google.maps.InfoWindow;
+        function initMap() {
 
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+            $('#map-result').css('visibility','hidden');
+            map = new google.maps.Map(document.getElementById('map-result'), {
+                center: { lat: -33.867, lng: 151.206 },
+                zoom: 15
+            });
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('You are here.');
-            infoWindow.open(map);
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          handleLocationError(false, infoWindow, map.getCenter());
+            infoWindow = new google.maps.InfoWindow();
+            service = new google.maps.places.PlacesService(map);
         }
-      }
 
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      }
-  initMap; */ 
+        function updateMap(location) {
+
+            let geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': location }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    // create an easier to use reference to the latlong object
+                    let loc = results[0].geometry.location;
+                    let bounds = results[0].geometry.bounds;
+                    // recenter and fit the map
+                    map.setCenter(loc);
+                    map.fitBounds(bounds);
+
+                    $('#map-result').css('visibility','visible');
+                    // show map
+                    // $('#map').show();
+                    // search for hospitals
+                    var request = {
+                        location: loc,
+                        radius: '50000',
+                        type: ['hospital']
+                    };
+                    service.nearbySearch(request, function(results, status) {
+                        if (status !== google.maps.places.PlacesServiceStatus.OK) {
+                            console.error(status);
+                            return;
+                        }
+                        for (var i = 0, result; result = results[i]; i++) {
+                            addMarker(result);
+                        }
+                    });
+                    
+                } else {
+                    alert("Could not find location: " + location);
+                }
+            });
+        }       
+
+        function addMarker(place) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location,
+                icon: {
+                    url: 'https://developers.google.com/maps/documentation/javascript/images/circle.png',
+                    anchor: new google.maps.Point(10, 10),
+                    scaledSize: new google.maps.Size(10, 17)
+                }
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                service.getDetails(place, function (result, status) {
+                    if (status !== google.maps.places.PlacesServiceStatus.OK) {
+                        console.error(status);
+                        return;
+                    }
+                    infoWindow.setContent(result.name);
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
