@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="col-md-6">
-                	<div class="panel panel-primary">
+                	<div class="panel panel-primary" id="recent-search-panel">
                         <div class="panel-heading">
                             <h3 class="panel-title">Most Recent Searches</h3>
                         </div>
@@ -96,10 +96,27 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Search Results</h3>
                         </div>
+                            <h2 id="results-country-heading"></h2>
+                            <table id="results-table" class="table table-hover results">
+                            <thead>
+                                <tr>
+                                    <th>Hazards</th>
+                                    <th>Data available</th>
+                                    <th>Per 100,000 population</th>
+                                    <th>Ranking (1-10)</th>
+                                    <th>Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody id ="results-show">
+
+                            </tbody>
+                        </table>
+
+
                         <div id="result" class="panel-body">
-                            Country: <strong id="country-name"></strong>
+                         <!--    Country: <strong id="country-name"></strong>
                             <br>
-                            ISO Code: <strong id="country-code"></strong>
+                            ISO Code: <strong id="country-code"></strong> -->
                         </div>
                     </div>
                 </div>

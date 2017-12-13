@@ -99,11 +99,11 @@ function get_rta_data (code) {
         if (isNaN(rtaData)) { 
 
             rtaData = 'no data'; 
-            $('#results-table tr:nth-child(2) td:nth-child(2)').text("no data");
+            $('#results-table tr:nth-child(1) td:nth-child(2)').text("no data");
             }
             else { 
             (rtaData = Math.round( rtaData * 10 ) / 10); 
-            $('#results-table tr:nth-child(2) td:nth-child(2)').text("yes");
+            $('#results-table tr:nth-child(1) td:nth-child(2)').text("yes");
             }
 
         countryResults[2] = rtaData;
@@ -141,11 +141,11 @@ function get_airpoll_data (code) {
 
         if (isNaN(airpollData)) {
             airpollData = 'no data';
-            $('#results-table tr:nth-child(3) td:nth-child(2)').text("no data");
+            $('#results-table tr:nth-child(2) td:nth-child(2)').text("no data");
             }
             else {
             airpollData = Math.round( airpollData * 10 ) / 10;
-            $('#results-table tr:nth-child(3) td:nth-child(2)').text("yes");
+            $('#results-table tr:nth-child(2) td:nth-child(2)').text("yes");
             }
 
         countryResults[3] = airpollData;
@@ -179,15 +179,20 @@ function get_natdis_data (code) {
         natdisData = response.fact[0].Value; 
         natdisDataYear = response.fact[0].dim.YEAR;
 
-        natdisData = parseInt(natdisData.replace(/</g,''));
+        console.log("natdis = " + natdisData)
+
+
+        //natdisData = parseInt(natdisData.replace(/</g,''));
+
+        console.log("natdis = " + natdisData)
 
         if (isNaN(natdisData)) { 
             natdisData = 'no data'; 
-            $('#results-table tr:nth-child(4) td:nth-child(2)').text("no data");
+            $('#results-table tr:nth-child(3) td:nth-child(2)').text("no data");
             }
             else {
-            natdisData = Math.ceil( natdisData * 10 ) / 10;
-            $('#results-table tr:nth-child(4) td:nth-child(2)').text("yes");
+            natdisData = Math.ceil( natdisData );
+            $('#results-table tr:nth-child(3) td:nth-child(2)').text("yes");
             }
         
         countryResults[4] = natdisData;
@@ -226,11 +231,11 @@ function get_hygeine_data (code) {
         if (isNaN(hygeineData)) { 
 
             hygeineData = "no data"; 
-            $('#results-table tr:nth-child(5) td:nth-child(2)').text("no data");
+            $('#results-table tr:nth-child(4) td:nth-child(2)').text("no data");
             }
             else {
             hygeineData = Math.round( hygeineData * 10 ) / 10;
-            $('#results-table tr:nth-child(5) td:nth-child(2)').text("yes");
+            $('#results-table tr:nth-child(4) td:nth-child(2)').text("yes");
             }
 
         countryResults[5] = hygeineData;
@@ -270,10 +275,10 @@ function get_homocide_data (code) {
         if (isNaN(homocideData)) { 
 
             homocideData = "no data"; 
-            $('#results-table tr:nth-child(6) td:nth-child(2)').text("no data");
+            $('#results-table tr:nth-child(5) td:nth-child(2)').text("no data");
             }
             else {homocideData = Math.round( homocideData * 10 ) / 10;
-            $('#results-table tr:nth-child(6) td:nth-child(2)').text("yes");
+            $('#results-table tr:nth-child(5) td:nth-child(2)').text("yes");
             }
 
         countryResults[6] = homocideData;
@@ -324,20 +329,20 @@ function get_commdis_data (code) {
 
         if (isNaN(ntdData)) {
             ntdData = "no data"; 
-            $('#results-table tr:nth-child(7) td:nth-child(2)').text("no data");
+            $('#results-table tr:nth-child(6) td:nth-child(2)').text("no data");
             }
             else { 
             ntdData = Math.round( ntdData * 10 ) / 10;
-            $('#results-table tr:nth-child(7) td:nth-child(2)').text("yes");
+            $('#results-table tr:nth-child(6) td:nth-child(2)').text("yes");
             }
 
         if (isNaN(malariaData)) {
             malariaData = "0"; 
-            $('#results-table tr:nth-child(8) td:nth-child(2)').text("yes");
+            $('#results-table tr:nth-child(7) td:nth-child(2)').text("yes");
             }
             else { 
             malariaData = Math.round( malariaData * 10 ) / 10;
-            $('#results-table tr:nth-child(8) td:nth-child(2)').text("yes");
+            $('#results-table tr:nth-child(7) td:nth-child(2)').text("yes");
             }
 
         countryResults[7] = malariaData;
@@ -392,20 +397,20 @@ function get_commdis_data (code) {
 
         if (isNaN(physiciansData)) {
             physiciansData = "no data"; 
-            $('#results-table tr:nth-child(10) td:nth-child(2)').text("no data");
+            $('#results-table tr:nth-child(11) td:nth-child(2)').text("no data");
             }
             else { 
             physiciansData = Math.round( physiciansData * 10 ) / 10;
-            $('#results-table tr:nth-child(10) td:nth-child(2)').text("yes");
+            $('#results-table tr:nth-child(11) td:nth-child(2)').text("yes");
             }
 
         if (isNaN(nursesData)) {
             nursesData = "no data"; 
-            $('#results-table tr:nth-child(11) td:nth-child(2)').text("no data");
+            $('#results-table tr:nth-child(12) td:nth-child(2)').text("no data");
             }
             else { 
             nursesData = Math.round( nursesData * 10 ) / 10;
-            $('#results-table tr:nth-child(11) td:nth-child(2)').text("yes");
+            $('#results-table tr:nth-child(12) td:nth-child(2)').text("yes");
             }
 
         countryResults[9] = physiciansData;
@@ -443,15 +448,15 @@ function calculate_rank () {
     if (countryResults[10] != "no data") { countryResults[10] = countryResults[10]*100; }
 
 
-    $('#results-table tr:nth-child(2) td:nth-child(3)').text(countryResults[2].toLocaleString());
-    $('#results-table tr:nth-child(3) td:nth-child(3)').text(countryResults[3].toLocaleString());
-    $('#results-table tr:nth-child(4) td:nth-child(3)').text(countryResults[4].toLocaleString());
-    $('#results-table tr:nth-child(5) td:nth-child(3)').text(countryResults[5].toLocaleString());
-    $('#results-table tr:nth-child(6) td:nth-child(3)').text(countryResults[6].toLocaleString());
-    $('#results-table tr:nth-child(7) td:nth-child(3)').text(countryResults[7].toLocaleString());
-    $('#results-table tr:nth-child(8) td:nth-child(3)').text(countryResults[8].toLocaleString());
-    $('#results-table tr:nth-child(10) td:nth-child(3)').text(countryResults[9].toLocaleString());
-    $('#results-table tr:nth-child(11) td:nth-child(3)').text(countryResults[10].toLocaleString());
+    $('#results-table tr:nth-child(1) td:nth-child(3)').text(countryResults[2].toLocaleString());
+    $('#results-table tr:nth-child(2) td:nth-child(3)').text(countryResults[3].toLocaleString());
+    $('#results-table tr:nth-child(3) td:nth-child(3)').text(countryResults[4].toLocaleString());
+    $('#results-table tr:nth-child(4) td:nth-child(3)').text(countryResults[5].toLocaleString());
+    $('#results-table tr:nth-child(5) td:nth-child(3)').text(countryResults[6].toLocaleString());
+    $('#results-table tr:nth-child(6) td:nth-child(3)').text(countryResults[7].toLocaleString());
+    $('#results-table tr:nth-child(7) td:nth-child(3)').text(countryResults[8].toLocaleString());
+    $('#results-table tr:nth-child(11)  td:nth-child(3)').text(countryResults[9].toLocaleString());
+    $('#results-table tr:nth-child(12) td:nth-child(3)').text(countryResults[10].toLocaleString());
 
 
     countryRankings[2] = Math.ceil((countryResults[2]/40)*10);
@@ -462,22 +467,51 @@ function calculate_rank () {
     countryRankings[7] = Math.ceil((countryResults[7]/20000)*10);
     countryRankings[8] = Math.ceil((countryResults[8]/100000)*10);
 
-    countryRankings[9] = Math.ceil((countryResults[9]/400)*10);
+    countryRankings[9] = Math.ceil((countryResults[9]/420)*10);
     countryRankings[10] = Math.ceil((countryResults[10]/1250)*10);
 
-    $('#results-table tr:nth-child(2) td:nth-child(4)').text(countryRankings[2]);
-    $('#results-table tr:nth-child(3) td:nth-child(4)').text(countryRankings[3]);
-    $('#results-table tr:nth-child(4) td:nth-child(4)').text(countryRankings[4]);
-    $('#results-table tr:nth-child(5) td:nth-child(4)').text(countryRankings[5]);
-    $('#results-table tr:nth-child(6) td:nth-child(4)').text(countryRankings[6]);
-    $('#results-table tr:nth-child(7) td:nth-child(4)').text(countryRankings[7]);
-    $('#results-table tr:nth-child(8) td:nth-child(4)').text(countryRankings[8]);
-    $('#results-table tr:nth-child(10) td:nth-child(4)').text(countryRankings[9]);
-    $('#results-table tr:nth-child(11) td:nth-child(4)').text(countryRankings[10]);
+    $('#results-table tr:nth-child(1) td:nth-child(4)').text(countryRankings[2]);
+    $('#results-table tr:nth-child(2) td:nth-child(4)').text(countryRankings[3]);
+    $('#results-table tr:nth-child(3) td:nth-child(4)').text(countryRankings[4]);
+    $('#results-table tr:nth-child(4) td:nth-child(4)').text(countryRankings[5]);
+    $('#results-table tr:nth-child(5) td:nth-child(4)').text(countryRankings[6]);
+    $('#results-table tr:nth-child(6) td:nth-child(4)').text(countryRankings[7]);
+    $('#results-table tr:nth-child(7) td:nth-child(4)').text(countryRankings[8]);
+    $('#results-table tr:nth-child(11) td:nth-child(4)').text(countryRankings[9]);
+    $('#results-table tr:nth-child(12) td:nth-child(4)').text(countryRankings[10]);
 
     var hazardRank = 0;
+    for (var x=2; x < 9; x++) {
+        hazardRank += countryRankings[x];
+    }
+    hazardRank = Math.ceil(hazardRank/5);
+    $('#results-table tr:nth-child(8) td:nth-child(4)').text(hazardRank);
+
     var healthRank = 0;
-    var travelsafeRank = 0;
+    for (x=9; x < 11; x++) {
+    healthRank += countryRankings[x]; 
+
+    }
+    healthRank = Math.round(healthRank/2);
+    $('#results-table tr:nth-child(13) td:nth-child(4)').text(healthRank);
+
+    var travelsafeRank = healthRank - hazardRank;
+    $('#results-table tr:nth-child(15) td:nth-child(4)').text(travelsafeRank);
+
+
+        // Grab date/time using moment.js
+    var coDate = moment().format('MMM Do YY, h:mm a');
+
+    var prevCountrySearch = {
+        country: country,
+        time: coDate,
+        ranking: travelsafeRank,
+        userWhoSearched: ""
+    };
+
+
+    // Firebase Inputs (push country selected to Firebase)
+    database.ref().push(prevCountrySearch); 
 
 
 
@@ -643,7 +677,7 @@ $("#submit-button").on("click", function() {
     countryInput = country.alpha3Code;
     countryResults[0] = country.name;
 
-        $('#result').empty();
+        $('#results-table > tbody').empty();
         countryResults.length = 0;
         resultsBack = 0;
 
@@ -661,45 +695,30 @@ $("#submit-button").on("click", function() {
 
     //set up the table to hold the results
 
-    $('#result').append("<h3>" + country.name + "</h3>");
+    $('#results-country-heading').text(country.name);
 
-    var resultsTable = $('<table>').addClass("results-table").attr("id", 'results-table');
-    $('#result').append(resultsTable);
-
-
-    $('#results-table').append("<tr><th>Hazards</th><th>Available</th><th>Per 100,000 population</th><th>Ranking</th></tr>");
-    $('#results-table').append("<tr><td>Road traffic deaths</td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Annual deaths due to air pollution</td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Average annual deaths from natural disasters</td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Deaths from homocide</td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Malaria incidence</td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Tropical diseases</td><td></td><td></td><td></td></tr>");
-    $('#results-table').append("<tr><td>Overall Hazard rank</td><td></td><td></td><td></td></tr>");
+    //var resultsTable = $('<table>').addClass("results-table").attr("id", 'results-table');
+    //$('#result').append(resultsTable);
 
 
-    $('#results-table').append("<tr> <th>Healthcare</th> <th></th> <th></th> <th></th> </tr>");
-    $('#results-table').append("<tr> <td>Number of physicians</td> <td></td> <td></td> <td></td> </tr>");
-    $('#results-table').append("<tr> <td>Number of nurses</td> <td> </td> <td></td> <td></td> </tr>");
-    $('#results-table').append("<tr> <td>Overall healthcare rank</td> <td></td> <td></td> <td></td> </tr>");
+    //$('#results-table').append("<tr><th>Hazards</th><th>Available</th><th>Per 100,000 population</th><th>Ranking</th></tr>");
+    $('#results-table > tbody').append("<tr><td>Road traffic deaths</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Annual deaths due to air pollution</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Average annual deaths from natural disasters</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Deaths from homocide</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Malaria incidence</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Tropical diseases</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Overall Hazard rank</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
 
-    $('#results-table').append("<tr><td>Overall TravelSafe ranking</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr> <th>Healthcare</th> <th></th> <th></th> <th></th> </tr>");
+    $('#results-table > tbody').append("<tr> <td>Number of physicians</td> <td></td> <td></td> <td></td> </tr>");
+    $('#results-table > tbody').append("<tr> <td>Number of nurses</td> <td></td> <td></td> <td></td> </tr>");
+    $('#results-table > tbody').append("<tr> <td>Overall healthcare rank</td> <td></td> <td></td> <td></td> </tr>");
+    $('#results-table > tbody').append("<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
 
-
-
-    // Grab date/time using moment.js
-    var coDate = moment().format('MMM Do YY, h:mm a');
-
-    var prevCountrySearch = {
-        country: country,
-        time: coDate,
-        ranking: coRanking,
-        userWhoSearched: ""
-    };
-
-
-    // Firebase Inputs (push country selected to Firebase)
-    database.ref().push(prevCountrySearch); 
+    $('#results-table > tbody').append("<tr><td>Overall TravelSafe ranking</td><td></td><td></td><td></td></tr>");
 
 
     //set interval timer to wait for all results to be back and then call calculate_rank function
@@ -738,7 +757,7 @@ $("#submit-button").on("click", function() {
     var User = childSnapshot.val().userWhoSearched;
 
     // Add the Previous search results
-    //$("#recent-search-table > tbody").prepend("<tr><td>" + Name + "</td><td>" + Ranking + "</td><td>" + Time + "</td></tr>");
+    $("#recent-search-table > tbody").prepend("<tr><td>" + Name + "</td><td>" + Ranking + "</td><td>" + Time + "</td></tr>");
   
     // Handle the errors
     }, function(errorObject) {

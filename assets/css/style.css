@@ -37,6 +37,27 @@ color: #fff;
 	margin: auto;
 	border-radius: 20px;
 }
-#recent-search-table {
-	max-height: 150px;
+#recent-search-panel {
+	max-height: 188px;
+	overflow-y: scroll;
+}
+
+#results-table tr:nth-child(8) {
+	font-weight: bold;
+	color: red;
+}
+
+#results-table tr:nth-child(13) {
+	font-weight: bold;
+	color: green;
+}
+
+#results-table tr:nth-child(15) {
+	font-weight: bold;
+	font-size: 16px;
+	background-color: #ddd;
+}
+
+#results-table tr:nth-child(10) {
+	border-bottom-style: solid 2px black;
 }
