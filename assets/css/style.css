@@ -20,6 +20,10 @@ color: #fff;
 	text-align: center;
 }
 
+#results-country-heading {
+	padding-left: 20px;
+}
+
 #map-result {
 	height: 400px; 
 	width: 100%;"

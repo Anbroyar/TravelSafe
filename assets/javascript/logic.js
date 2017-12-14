@@ -24,6 +24,7 @@ var countryInput = "";
 var countryResults = [];
 var countryResultsYear = [];
 var countryRankings = [];
+var countryComments = [];
 var country = "";
 var coDate = "";
 var coRanking = 0;
@@ -40,7 +41,7 @@ var resultsBack = 0;
 // get road traffic deaths rates
 
 function get_pop_data (code) {
-
+    var pop = "";
     var rtaURL = "http://apps.who.int/gho/athena/data/GHO/WHS9_86,WHS9_88,WHS9_89,WHS9_92,WHS9_96,WHS9_97,WHS9_90.json?profile=simple&filter=COUNTRY:*;YEAR:2015";
     var queryURL = rtaURL.replace("COUNTRY:*", "COUNTRY:" + code);  // replace 'country:*'' with 'country:code'
 
@@ -53,12 +54,10 @@ function get_pop_data (code) {
     })
 
     .done(function(response) {
-        console.log (response)
-        console.log(response.fact[0].Value)
 
         for (x=0; x < response.fact.length; x++) {
             if (response.fact[x].dim.GHO == "Population (in thousands) total") {
-                var pop = response.fact[x].Value;
+                pop = response.fact[x].Value;
             }
 
         }
@@ -179,13 +178,6 @@ function get_natdis_data (code) {
         natdisData = response.fact[0].Value; 
         natdisDataYear = response.fact[0].dim.YEAR;
 
-        console.log("natdis = " + natdisData)
-
-
-        //natdisData = parseInt(natdisData.replace(/</g,''));
-
-        console.log("natdis = " + natdisData)
-
         if (isNaN(natdisData)) { 
             natdisData = 'no data'; 
             $('#results-table tr:nth-child(3) td:nth-child(2)').text("no data");
@@ -265,8 +257,6 @@ function get_homocide_data (code) {
 
     .done(function(response) {
 
-        console.log(response);
-
         if (response.fact[0].dim.GHO.indexOf("per 100 000 population") > 0) { homocideData = response.fact[0].Value; homocideDataYear = response.fact[0].dim.YEAR; }
            else { homocideData = response.fact[1].Value; homocideDataYear = response.fact[1].dim.YEAR;} 
 
@@ -288,6 +278,8 @@ function get_homocide_data (code) {
     });
 
 }
+
+// get communicable diseases rates
 
 function get_commdis_data (code) {
 
@@ -423,23 +415,9 @@ function get_commdis_data (code) {
 
 }
 
-
-function set_up () {
-
-    // set up page as required
-}
-
-
-function display_searches () {
-
-    // load from firebase and display results of previous searches on page
-}
-
+// displays data from each Api call for that country
 
 function calculate_rank () {
-
-    //console.log(countryResults);
-    //console.log(countryResultsYear);
 
     if (countryResults[3] != "no data") { countryResults[3] = Math.round(countryResults[3]/(parseInt(countryResults[1])/100000)); }
     if (countryResults[7] != "no data") { countryResults[7] = countryResults[7]*100; }
@@ -458,17 +436,50 @@ function calculate_rank () {
     $('#results-table tr:nth-child(11)  td:nth-child(3)').text(countryResults[9].toLocaleString());
     $('#results-table tr:nth-child(12) td:nth-child(3)').text(countryResults[10].toLocaleString());
 
+    //Calculates country ranking and comments for each data set
+
 
     countryRankings[2] = Math.ceil((countryResults[2]/40)*10);
+        if (countryRankings[2] > 5) { countryComments[2] = "Beware dangerous roads!"; }
+            else { countryComments[2] = ""; }
+
     countryRankings[3] = Math.ceil((countryResults[3]/100)*10);
+        if (countryRankings[3] > 5) { countryComments[3] = "Poor air quality"; }
+            else { countryComments[3] = ""; }
+
     countryRankings[4] = Math.ceil((countryResults[4]/8)*10);
+         if (isNaN(countryRankings[3])) { countryRankings[3] = 0; }
+         if (countryRankings[4] > 5) { countryComments[4] = "Frequent natural disasters"; }
+            else { countryComments[4] = ""; }
+
     countryRankings[5] = Math.ceil((countryResults[5]/120)*10);
+         if (countryRankings[5] > 5) { countryComments[6] = "Drink bottled or boiled water"; }
+            else { countryComments[5] = ""; }
+
     countryRankings[6] = Math.ceil((countryResults[6]/85)*10);
+        if (countryRankings[6] > 5) { countryComments[6] = "Beware high violent crime!"; }
+            else { countryComments[6] = ""; }
+
     countryRankings[7] = Math.ceil((countryResults[7]/20000)*10);
+        if (countryRankings[7] >10) { countryRankings[7] = 10; }
+        else if (isNaN(countryRankings[7])) { countryRankings[7] = 0; }
+        if (countryRankings[7] > 3) { countryComments[7] = "Malaria prophylaxis required"; }
+            else { countryComments[7] = ""; }
+
     countryRankings[8] = Math.ceil((countryResults[8]/100000)*10);
+        if (countryRankings[8] > 3) { countryComments[8] = "Review travel immunisations "; }
+            else { countryComments[8] = ""; }
 
     countryRankings[9] = Math.ceil((countryResults[9]/420)*10);
+        if (countryRankings[9] >10) { countryRankings[9] = 10; }
+
     countryRankings[10] = Math.ceil((countryResults[10]/1250)*10);
+        if (countryRankings[10] >10) { countryRankings[10] = 10; }
+        if (countryRankings[9] > 5 && countryRankings[10] > 5) { countryComments[9] = "Excellent healthcare"; }
+        else if (countryRankings[9] < 3 && countryRankings[10] <3) { countryComments[9] = "Poor healthcare facilities"; }
+        else { countryComments[9] = ""; }
+
+    //display country ranking and comments
 
     $('#results-table tr:nth-child(1) td:nth-child(4)').text(countryRankings[2]);
     $('#results-table tr:nth-child(2) td:nth-child(4)').text(countryRankings[3]);
@@ -480,12 +491,27 @@ function calculate_rank () {
     $('#results-table tr:nth-child(11) td:nth-child(4)').text(countryRankings[9]);
     $('#results-table tr:nth-child(12) td:nth-child(4)').text(countryRankings[10]);
 
+    $('#results-table tr:nth-child(1) td:nth-child(5)').text(countryComments[2]);
+    $('#results-table tr:nth-child(2) td:nth-child(5)').text(countryComments[3]);
+    $('#results-table tr:nth-child(3) td:nth-child(5)').text(countryComments[4]);
+    $('#results-table tr:nth-child(5) td:nth-child(5)').text(countryComments[5]);
+    $('#results-table tr:nth-child(5) td:nth-child(5)').text(countryComments[6]);
+    $('#results-table tr:nth-child(6) td:nth-child(5)').text(countryComments[7]);
+    $('#results-table tr:nth-child(7) td:nth-child(5)').text(countryComments[8]);
+    $('#results-table tr:nth-child(12) td:nth-child(5)').text(countryComments[9]);
+
+
+
+    // calculate average rank of hazards
+
     var hazardRank = 0;
     for (var x=2; x < 9; x++) {
         hazardRank += countryRankings[x];
     }
     hazardRank = Math.ceil(hazardRank/5);
     $('#results-table tr:nth-child(8) td:nth-child(4)').text(hazardRank);
+
+    //calculate average rank of healthcare
 
     var healthRank = 0;
     for (x=9; x < 11; x++) {
@@ -495,11 +521,15 @@ function calculate_rank () {
     healthRank = Math.round(healthRank/2);
     $('#results-table tr:nth-child(13) td:nth-child(4)').text(healthRank);
 
+    //calculate overall ranking of country
+
     var travelsafeRank = healthRank - hazardRank;
     $('#results-table tr:nth-child(15) td:nth-child(4)').text(travelsafeRank);
 
 
-        // Grab date/time using moment.js
+    // save country and ranking to firebase database.
+
+    // Grab date/time using moment.js
     var coDate = moment().format('MMM Do YY, h:mm a');
 
     var prevCountrySearch = {
@@ -514,47 +544,24 @@ function calculate_rank () {
     database.ref().push(prevCountrySearch); 
 
 
-
-  // use the data to calculate the ranking of user input country
 } 
 
-
-function display_rank () {
-
-   // call function to display ranking
-
-}
-
-
-function interpret_rank () {
-
-   // call function to interpet rankings 
-
-}
-
+// Display to and bottom ranked countries into panels
 
 function top_ranks () {
 
-console.log ("hereeeeee")
-
-$("#top-safest-table > tbody").append("<tr><td>Iceland</td><td>10</td></tr>");
-$("#top-safest-table > tbody").append("<tr><td>Norway</td><td>10</td></tr>");
+$("#top-safest-table > tbody").append("<tr><td>Iceland</td><td>9</td></tr>");
+$("#top-safest-table > tbody").append("<tr><td>Norway</td><td>9</td></tr>");
 $("#top-safest-table > tbody").append("<tr><td>Australia</td><td>9</td></tr>");
 $("#top-safest-table > tbody").append("<tr><td>Belgium</td><td>8</td></tr>");
 $("#top-safest-table > tbody").append("<tr><td>Denmark</td><td>7</td></tr>");
 
-$("#top-dangerous-table > tbody").append("<tr><td>Mozambique</td><td>8</td></tr>");
-$("#top-dangerous-table > tbody").append("<tr><td>liberia</td><td>7</td></tr>");
-$("#top-dangerous-table > tbody").append("<tr><td>Angola</td><td>7</td></tr>");
-$("#top-dangerous-table > tbody").append("<tr><td>Afghanistan</td><td>4</td></tr>");
-$("#top-dangerous-table > tbody").append("<tr><td>Yemen</td><td>6</td></tr>");
+$("#top-dangerous-table > tbody").append("<tr><td>Mozambique</td><td>-8</td></tr>");
+$("#top-dangerous-table > tbody").append("<tr><td>liberia</td><td>-7</td></tr>");
+$("#top-dangerous-table > tbody").append("<tr><td>Angola</td><td>-7</td></tr>");
+$("#top-dangerous-table > tbody").append("<tr><td>Afghanistan</td><td>-4</td></tr>");
+$("#top-dangerous-table > tbody").append("<tr><td>Yemen</td><td>-6</td></tr>");
 
-}
-
-
-function save_search () {
-
-    // save searches to firebase
 }
 
 
@@ -639,22 +646,26 @@ $('#sign-up-btn').on("click", function(event) {
 
 $('#sign-out-btn').on("click", function() {
     firebase.auth().signOut().then(function() {
-        console.log("Sign out sucessful")
+        console.log("Sign out sucessful");
       // Sign-out successful.
     }).catch(function(error) {
       // An error happened.
-      console.log("Sign out failure")
+      console.log("Sign out failure");
     });
 });
 
 /*  --------------------------- Calls ---------------------------------------------*/
 
-set_up (); // set up page
 
-top_ranks (); // get top and bottom ranking countries and dispaly
+// get top and bottom ranking countries and display
 
-display_searches ();  // if user logged in load and dispaly users previous searches from firebase
-                      // dispaly message asking user to register/login in if not already done so
+top_ranks (); 
+
+
+// if user logged in load and dispaly users previous searches from firebase
+// dispaly message asking user to register/login in if not already done so
+
+//display_searches ();  
 
 
 // then listen for user to input a country to search
@@ -664,7 +675,7 @@ display_searches ();  // if user logged in load and dispaly users previous searc
 /*  --------------------------- Event listeners ---------------------------------------------*/
 
 
-// Autocomplete Country input AND code generation based on input
+// Autocomplete country input AND code generation based on input
 
 $(function() {
     $('#country').typeahead({
@@ -689,6 +700,8 @@ $("#submit-button").on("click", function() {
         countryResults.length = 0;
         resultsBack = 0;
 
+        // call ajax requests to get data from WHO APIs using country entered as filter
+
         var countryPop = get_pop_data (countryInput);
         var countryRTAData = get_rta_data (countryInput);
         var countryAirpollData = get_airpoll_data(countryInput);
@@ -698,6 +711,8 @@ $("#submit-button").on("click", function() {
         var commdisData = get_commdis_data(countryInput);
         var healthworkersData = get_healthworkers_data(countryInput);
 
+        // call google map api with selected country in order to display country with hospitals marked
+
         updateMap(countryName);
 
 
@@ -705,31 +720,26 @@ $("#submit-button").on("click", function() {
 
     $('#results-country-heading').text(country.name);
 
-    //var resultsTable = $('<table>').addClass("results-table").attr("id", 'results-table');
-    //$('#result').append(resultsTable);
-
-
-    //$('#results-table').append("<tr><th>Hazards</th><th>Available</th><th>Per 100,000 population</th><th>Ranking</th></tr>");
-    $('#results-table > tbody').append("<tr><td>Road traffic deaths</td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Annual deaths due to air pollution</td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Average annual deaths from natural disasters</td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Road traffic deaths</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Annual deaths due to air pollution</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Average annual deaths from natural disasters</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td><td></td></tr>");
     $('#results-table > tbody').append("<tr><td>Deaths from homocide</td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Malaria (new cases/year)</td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Tropical diseases (new cases/year</td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Overall Hazard rank</td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
+    $('#results-table > tbody').append("<tr><td>Malaria (cases/year in susceptible population)</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Tropical diseases (interventions/year</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Overall Hazard rank</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
 
-    $('#results-table > tbody').append("<tr> <th>Healthcare</th> <th></th> <th></th> <th></th> </tr>");
-    $('#results-table > tbody').append("<tr> <td>Number of physicians</td> <td></td> <td></td> <td></td> </tr>");
-    $('#results-table > tbody').append("<tr> <td>Number of nurses</td> <td></td> <td></td> <td></td> </tr>");
-    $('#results-table > tbody').append("<tr> <td>Overall healthcare rank</td> <td></td> <td></td> <td></td> </tr>");
-    $('#results-table > tbody').append("<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
+    $('#results-table > tbody').append("<tr> <th>Healthcare</th> <th></th> <th></th> <th></th> <td></td> </tr>");
+    $('#results-table > tbody').append("<tr> <td>Number of physicians</td> <td></td> <td></td> <td></td> <td></td> </tr>");
+    $('#results-table > tbody').append("<tr> <td>Number of nurses</td> <td></td> <td></td> <td></td> <td></td> </tr>");
+    $('#results-table > tbody').append("<tr> <td>Overall healthcare rank</td> <td></td> <td></td> <td></td> <td></td> </tr>");
+    $('#results-table > tbody').append("<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
 
-    $('#results-table > tbody').append("<tr><td>Overall TravelSafe ranking</td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Overall TravelSafe ranking</td><td></td><td></td><td></td><td></td></tr>");
 
 
-    //set interval timer to wait for all results to be back and then call calculate_rank function
+    //set interval timer to wait for all results to be back and then call calculate_rank function when all data returned
 
     var intervalCount = 0;
     var intervalId = setInterval( function() { 
@@ -756,7 +766,6 @@ $("#submit-button").on("click", function() {
 // Output Firebase Data to Previous Search section
 
     database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-    //console.log(childSnapshot.val());
 
     // Save all firebase data as a variable
     var Name = childSnapshot.val().country.name;

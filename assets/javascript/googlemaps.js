@@ -1,4 +1,4 @@
-       var map;
+        var map;
         var infoWindow;
         var service;
 
