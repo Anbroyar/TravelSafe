@@ -726,17 +726,17 @@ $("#submit-button").on("click", function() {
     $('#results-table > tbody').append("<tr><td>Deaths attributed to unsafe water hygeine</td><td></td><td></td><td></td><td></td></tr>");
     $('#results-table > tbody').append("<tr><td>Deaths from homocide</td><td></td><td></td><td></td></tr>");
     $('#results-table > tbody').append("<tr><td>Malaria (cases/year in susceptible population)</td><td></td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Tropical diseases (interventions/year</td><td></td><td></td><td></td><td></td></tr>");
-    $('#results-table > tbody').append("<tr><td>Overall Hazard rank</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Tropical diseases (interventions/year)</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Overall Hazard rank (scale 0 to 10)</td><td></td><td></td><td></td><td></td></tr>");
     $('#results-table > tbody').append("<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
 
     $('#results-table > tbody').append("<tr> <th>Healthcare</th> <th></th> <th></th> <th></th> <td></td> </tr>");
     $('#results-table > tbody').append("<tr> <td>Number of physicians</td> <td></td> <td></td> <td></td> <td></td> </tr>");
     $('#results-table > tbody').append("<tr> <td>Number of nurses</td> <td></td> <td></td> <td></td> <td></td> </tr>");
-    $('#results-table > tbody').append("<tr> <td>Overall healthcare rank</td> <td></td> <td></td> <td></td> <td></td> </tr>");
+    $('#results-table > tbody').append("<tr> <td>Overall healthcare rank (scale 0 to 10)</td> <td></td> <td></td> <td></td> <td></td> </tr>");
     $('#results-table > tbody').append("<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
 
-    $('#results-table > tbody').append("<tr><td>Overall TravelSafe ranking</td><td></td><td></td><td></td><td></td></tr>");
+    $('#results-table > tbody').append("<tr><td>Overall TravelSafe ranking (scale -10 to 10)</td><td></td><td></td><td></td><td></td></tr>");
 
 
     //set interval timer to wait for all results to be back and then call calculate_rank function when all data returned
